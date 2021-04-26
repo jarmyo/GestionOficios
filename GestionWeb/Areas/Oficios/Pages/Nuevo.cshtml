@@ -1,0 +1,84 @@
+﻿@page
+@model GestionWeb.Areas.Oficios.Pages.NuevoModel
+@{
+}
+<h1>Nuevo Oficio</h1>
+<div class="container px-4">
+
+    <form method="post" enctype="multipart/form-data">
+        <div class="row gx-4">
+            <div class="col-6">
+                <h2>Generales</h2>
+                <div class="row mb-2">
+                    <div class="col-4">
+                        <label asp-for="Oficios.Numero" class="form-label"></label>
+                        <input asp-for="Oficios.Numero" class="form-control" maxlength="6" />
+                        <span asp-validation-for="Oficios.Numero" class="text-danger" ></span>
+                    </div>
+                    <div class="col-8">
+                        <label asp-for="Oficios.Oficio" class="form-label"></label>
+                        <input asp-for="Oficios.Oficio" class="form-control" required maxlength="40" />
+                        <span asp-validation-for="Oficios.Oficio" class="text-danger"></span>
+                    </div>
+                </div>
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+
+                <div class="form-group mb-2">
+                    <label class="form-label">Quien recibe</label>
+                    <select asp-for="Oficios.IdReceptor" class="form-select" asp-items="ViewBag.IdReceptor"></select>
+                </div>
+                <div class="form-group mb-2">
+                    <label class="form-label">Quien emite</label>
+                    <select asp-for="Oficios.IdEmisor" class="form-select" asp-items="ViewBag.IdEmisor"></select>
+                </div>
+                <div class="form-group mb-2">
+                    <label class="form-label">Tipo Oficio</label>
+                    <select asp-for="Oficios.IdTipo" class="form-select" asp-items="ViewBag.IdTipo"></select>
+                </div>
+
+                <div class="form-group mb-2">
+                    <label asp-for="Oficios.Asunto" class="form-label"></label>
+                    <input asp-for="Oficios.Asunto" class="form-control" />
+                    <span asp-validation-for="Oficios.Asunto" class="text-danger"></span>
+                </div>
+               
+            </div>
+            <div class="col-6">
+                <h2>Seguimiento</h2>
+                <div class="form-group mb-2">
+                    <label class="form-label">Fecha de termino</label>
+                    <input asp-for="Oficios.FechaTermino" class="form-control" />
+                    <span asp-validation-for="Oficios.FechaTermino" class="text-danger"></span>
+                </div>
+                <label class="form-label">Turnar a...</label>
+                <div class="col">
+                    <input class="btn-check" name="TurnarA" id="option-0" type="radio" value="0" autocomplete="off" checked>
+                    <label class="btn btn-secondary" for="option-0">Ninguno</label>
+                    @foreach (var r in Model.Usuarios)
+                    {
+                    <input class="btn-check" name="TurnarA" id="option-@r.Id" type="radio" value="u-@r.Id" autocomplete="off">
+                    <label class="btn btn-success m-1" for="option-@r.Id">@r.Nombre</label>
+                    }
+                    @foreach (var r in Model.Departamentos)
+                    {
+                    <input class="btn-check" name="TurnarA" id="optionD-@r.Id" type="radio" value="d-@r.Id" autocomplete="off">
+                    <label class="btn btn-info m-1" for="optionD-@r.Id">@r.Nombre</label>
+                    }
+                </div>
+                <hr />
+                <h2>Documentación</h2>
+                <div class="mb-3">
+                    <label for="formFileMultiple" class="form-label">Subir archivos</label>
+                    <input class="form-control" type="file" id="formFileMultiple" name="formFileMultiple" multiple>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group">
+                <input type="submit" value="Registrar Oficio" class="btn btn-lg btn-primary" />
+            </div>
+        </div>
+    </form>
+
+</div>

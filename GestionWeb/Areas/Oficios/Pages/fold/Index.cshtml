@@ -1,0 +1,92 @@
+﻿@*@page
+@model GestionWeb.Areas.Oficios.Pages.fold.IndexModel
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+</head>
+<body>
+<p>
+    <a asp-page="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Oficios[0].Numero)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Oficios[0].Oficio)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Oficios[0].FechaTermino)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Oficios[0].Asunto)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Oficios[0].Archivado)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Oficios[0].IdDepartamentoNavigation)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Oficios[0].IdEmisorNavigation)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Oficios[0].IdReceptorNavigation)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Oficios[0].IdTipoNavigation)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.Oficios) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Numero)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Oficio)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FechaTermino)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Asunto)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Archivado)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdDepartamentoNavigation.Nombre)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdEmisorNavigation.Nombre)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdReceptorNavigation.Nombre)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdTipoNavigation.Nombre)
+            </td>
+            <td>
+                <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+</body>
+</html>*@
