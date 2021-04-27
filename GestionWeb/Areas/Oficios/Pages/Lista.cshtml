@@ -1,9 +1,27 @@
 ﻿@page
 @model GestionWeb.Areas.Oficios.Pages.ListaModel
 @{
+    ViewData["Title"] = "Lista de Oficios";
 }
-<h1>Oficios Registrados</h1>
-<div class="row mb-2">    
+
+<div class="row">
+    <div class="col">
+        <h1>@ViewData["Title"]</h1>
+    </div>
+    <div class="col-auto">
+        @if (!Model.MostrarArchivados)
+        {
+            <a class="btn btn-danger" href="~/oficios/Lista?id=99">Mostrar los documentos archivados</a>
+        }
+        else
+        {
+            <a class="btn btn-success" href="~/oficios/Lista">Mostrar los documentos sin archivar</a>
+        }
+    </div>
+</div>
+
+<div class="row mb-2">
+    <hr />
     <div class="col">
         <div class="input-group">
             <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
@@ -31,7 +49,7 @@
                 todos los terminos
             </button>
             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                <li><a class="dropdown-item" href="#">todos los terminoss</a></li>
+                <li><a class="dropdown-item" href="#">todos los terminos</a></li>
                 <li><a class="dropdown-item" href="#">Con termino</a></li>
                 <li><a class="dropdown-item" href="#">Sin termino</a></li>
             </ul>
@@ -46,36 +64,38 @@
         </div>
     </div>
 </div>
-<div class="row">
-    <div class="col">
-        <table class="table table-sm">
-            <thead class="table-dark">
-                <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Oficio</th>
-                    <th scope="col">Recibido</th>
-                    <th scope="col">Tipo</th>
-                    <th scope="col">Asunto</th>
-                    <th scope="col">...</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var oficio in Model.Oficios)
-                {
-                <tr>
-                    <th scope="row">@oficio.Numero</th>
-                    <td>@oficio.Oficio</td>
-                    <td>@oficio.OficiosEstados.First(e=>e.IdEstado == 1).FechaHora</td>
-                    <td>
-                        @oficio.IdTipoNavigation.Nombre -
-                        @oficio.IdEmisorNavigation.Nombre
-                    </td>
-                    <td>@oficio.Asunto</td>
-                    <td><a href="/Oficios/Detalles/@oficio.Id" class="btn btn-primary">Detalles</a></td>
-                </tr>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col">
+            <table class="table table-sm">
+                <thead class="table-dark">
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Oficio</th>
+                        <th scope="col">Recibido</th>
+                        <th scope="col">Tipo</th>
+                        <th scope="col">Asunto</th>
+                        <th scope="col">...</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var oficio in Model.Oficios)
+                    {
+                        <tr>
+                            <th scope="row">@oficio.Numero</th>
+                            <td>@oficio.Oficio</td>
+                            <td>@oficio.FechaRecepcion</td>
+                            <td>
+                                @oficio.IdTipoNavigation.Nombre -
+                                @oficio.IdEmisorNavigation.Nombre
+                            </td>
+                            <td>@oficio.Asunto</td>
+                            <td><a href="~/oficios/detalles?id=@oficio.Id" class="btn btn-primary">Detalles</a></td>
+                        </tr>
 
-                }
-            </tbody>
-        </table>
+                    }
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>

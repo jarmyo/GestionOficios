@@ -9,11 +9,11 @@ using GestionWeb.Data;
 
 namespace GestionWeb.Areas.Oficios.Pages.fold
 {
-    public class DetailsModel : PageModel
+    public class DetallesModel : PageModel
     {
         private readonly GestionWeb.Data.GestionOficiosContext _context;
 
-        public DetailsModel(GestionWeb.Data.GestionOficiosContext context)
+        public DetallesModel(GestionWeb.Data.GestionOficiosContext context)
         {
             _context = context;
         }

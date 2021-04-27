@@ -1,7 +1,7 @@
 ﻿@page
 @model GestionWeb.Areas.Oficios.Pages.IndexModel
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Gestión de Oficios";
 }
 @section Styles
 {
@@ -20,8 +20,24 @@
             </div>
             <h2>Recibir oficio</h2>
             <p>Agregar a la base un oficio</p>
-            <a href="oficios/nuevo" class="icon-link">
+            <a href="~/oficios/nuevo" class="icon-link">
                 Registrar
+                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" class="bi" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z" />
+                </svg>
+            </a>
+        </div>
+        <div class="feature col-md-4">
+            <div class="feature-icon bg-primary bg-gradient">
+                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" class="bi bi-file-person" viewBox="0 0 16 16">
+                    <path d="M12 1a1 1 0 0 1 1 1v10.755S12 11 8 11s-5 1.755-5 1.755V2a1 1 0 0 1 1-1h8zM4 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H4z" />
+                    <path d="M8 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" />
+                </svg>
+            </div>
+            <h2>Mis Oficios</h2>
+            <p>Administrar oficios turnados y generados</p>
+            <a href="~/oficios/misoficios" class="icon-link">
+                Administrar
                 <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" class="bi" viewBox="0 0 16 16">
                     <path fill-rule="evenodd" d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z" />
                 </svg>
@@ -36,7 +52,7 @@
             </div>
             <h2>Administrar documentos</h2>
             <p>Documentos del area</p>
-            <a href="oficios/lista" class="icon-link">
+            <a href="~/oficios/lista" class="icon-link">
                 Administrar
                 <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" class="bi" viewBox="0 0 16 16">
                     <path fill-rule="evenodd" d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z" />
@@ -51,7 +67,7 @@
             </div>
             <h2>Catalogos</h2>
             <p>Usuarios, areas, departamentos</p>
-            <a href="configurar" class="icon-link">
+            <a href="~/oficios/configurar" class="icon-link">
                 Administrar
                 <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" class="bi" viewBox="0 0 16 16">
                     <path fill-rule="evenodd" d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z" />

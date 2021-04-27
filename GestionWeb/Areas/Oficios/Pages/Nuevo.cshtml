@@ -1,10 +1,10 @@
 ﻿@page
 @model GestionWeb.Areas.Oficios.Pages.NuevoModel
 @{
+    ViewData["Title"] = "Nuevo oficio";
 }
-<h1>Nuevo Oficio</h1>
+<h1>@ViewData["Title"]</h1>
 <div class="container px-4">
-
     <form method="post" enctype="multipart/form-data">
         <div class="row gx-4">
             <div class="col-6">
@@ -13,7 +13,7 @@
                     <div class="col-4">
                         <label asp-for="Oficios.Numero" class="form-label"></label>
                         <input asp-for="Oficios.Numero" class="form-control" maxlength="6" />
-                        <span asp-validation-for="Oficios.Numero" class="text-danger" ></span>
+                        <span asp-validation-for="Oficios.Numero" class="text-danger"></span>
                     </div>
                     <div class="col-8">
                         <label asp-for="Oficios.Oficio" class="form-label"></label>
@@ -42,14 +42,14 @@
                     <input asp-for="Oficios.Asunto" class="form-control" />
                     <span asp-validation-for="Oficios.Asunto" class="text-danger"></span>
                 </div>
-               
+
             </div>
             <div class="col-6">
                 <h2>Seguimiento</h2>
                 <div class="form-group mb-2">
                     <label class="form-label">Fecha de termino</label>
-                    <input asp-for="Oficios.FechaTermino" class="form-control" />
-                    <span asp-validation-for="Oficios.FechaTermino" class="text-danger"></span>
+                    <input asp-for="Oficios.OficiosTermino.Fecha" class="form-control" />
+                    <span asp-validation-for="Oficios.OficiosTermino.Fecha" class="text-danger"></span>
                 </div>
                 <label class="form-label">Turnar a...</label>
                 <div class="col">
@@ -57,19 +57,19 @@
                     <label class="btn btn-secondary" for="option-0">Ninguno</label>
                     @foreach (var r in Model.Usuarios)
                     {
-                    <input class="btn-check" name="TurnarA" id="option-@r.Id" type="radio" value="u-@r.Id" autocomplete="off">
-                    <label class="btn btn-success m-1" for="option-@r.Id">@r.Nombre</label>
+                        <input class="btn-check" name="TurnarA" id="optionU-@r.Id" type="radio" value="u-@r.Id" autocomplete="off">
+                        <label class="btn btn-success m-1" for="optionU-@r.Id">@r.Nombre</label>
                     }
                     @foreach (var r in Model.Departamentos)
                     {
-                    <input class="btn-check" name="TurnarA" id="optionD-@r.Id" type="radio" value="d-@r.Id" autocomplete="off">
-                    <label class="btn btn-info m-1" for="optionD-@r.Id">@r.Nombre</label>
+                        <input class="btn-check" name="TurnarA" id="optionD-@r.Id" type="radio" value="d-@r.Id" autocomplete="off">
+                        <label class="btn btn-info m-1" for="optionD-@r.Id">@r.Nombre</label>
                     }
                 </div>
                 <hr />
                 <h2>Documentación</h2>
                 <div class="mb-3">
-                    <label for="formFileMultiple" class="form-label">Subir archivos</label>
+                    <label for="formFileMultiple" class="form-label">Subir archivos (puede incluirlos posteriormente)</label>
                     <input class="form-control" type="file" id="formFileMultiple" name="formFileMultiple" multiple>
                 </div>
             </div>

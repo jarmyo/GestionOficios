@@ -1,0 +1,116 @@
+﻿@page
+@model GestionWeb.Areas.Oficios.Pages.fold.DetallesModel
+
+@{
+    ViewData["Title"] = "Detalles del Oficio";
+}
+<div class="row">
+    <h3>@Html.DisplayFor(model => model.Oficios.Numero) - @Html.DisplayFor(model => model.Oficios.Oficio)</h3>
+    
+    <hr />
+    <p>
+        <a href="~/Oficios/Marcar?id=@Model.Oficios.Id&action=2" class="btn btn-primary my-2">Turnar a alguien</a>
+        <a href="~/Oficios/Marcar?id=@Model.Oficios.Id&action=3" class="btn btn-success my-2">Aceptar turno</a>
+        <a href="~/Oficios/Marcar?id=@Model.Oficios.Id&action=4" class="btn btn-info my-2">Marcar como contestado</a>
+        <a href="~/Oficios/Marcar?id=@Model.Oficios.Id&action=5" class="btn btn-dark my-2">Confirmar como contestado</a>
+        <a href="~/Oficios/Marcar?id=@Model.Oficios.Id&action=7" class="btn btn-warning my-2">Archivar</a>
+        <a href="~/Oficios/Marcar?id=@Model.Oficios.Id&action=9" class="btn btn-danger my-2">Eliminar</a>
+    </p>
+    <hr />
+    <div class="col-6">
+        @if (Model.Oficios.OficiosTermino != null)
+        {
+            <h4>Tiene termino</h4>
+            var timeSpan = Model.Oficios.OficiosTermino.Fecha - DateTime.Now.Date;
+            var classL = "alert-warning";
+            if (timeSpan.Days < 4)
+                {
+                    classL = "alert-danger";
+                }
+            <div class="alert @classL">Termino: @Model.Oficios.OficiosTermino.Fecha Fatan @timeSpan.Days Dias.</div>
+            <hr />
+        }
+
+        <h4>Generales</h4>
+        <dl class="row">
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Oficios.Asunto)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Oficios.Asunto)
+            </dd>
+            <dt class="col-sm-2">
+                Departamento
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Oficios.IdDepartamentoNavigation.Nombre)
+            </dd>
+            <dt class="col-sm-2">
+                Quien Emite
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Oficios.IdEmisorNavigation.Nombre)
+            </dd>
+            <dt class="col-sm-2">
+                Recibió
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Oficios.IdReceptorNavigation.Nombre)
+                @Html.DisplayFor(model => model.Oficios.FechaRecepcion)
+            </dd>
+            <dt class="col-sm-2">
+                Tipo
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Oficios.IdTipoNavigation.Nombre)
+            </dd>
+        </dl>
+    </div>
+    <div class="col-6">
+        <div class="row">
+            @if (Model.Oficios.OficiosUsuarios.Any())
+            {
+            <h4>Usuarios que atienden este oficio</h4>
+            <div class="list-group list-group-flush border-bottom scrollarea">
+                @foreach (var estado in Model.Oficios.OficiosUsuarios)
+                {
+                    <a href="#" class="list-group-item list-group-item-action py-3 lh-tight">
+                        <div class="d-flex w-100 align-items-center justify-content-between">
+                            <strong class="mb-1">@estado.IdUsuarioNavigation.Nombre</strong>                            
+                        </div>                        
+                    </a>
+                }
+            </div>
+            <hr  />
+            }
+            <h4>Seguimiento</h4>
+            <div class="list-group list-group-flush border-bottom scrollarea">
+                @foreach (var estado in Model.Oficios.OficiosEstados)
+                {
+                    <a href="#" class="list-group-item list-group-item-action py-3 lh-tight">
+                        <div class="d-flex w-100 align-items-center justify-content-between">
+                            <strong class="mb-1">@estado.IdEstadoNavigation.Nombre</strong>
+                            <small class="text-muted">@estado.FechaHora</small>
+                        </div>
+                        <strong class="mb-1">@estado.IdUsuarioNavigation.Nombre</strong>
+                        <div class="col-10 mb-1 small">
+                            @foreach (var nota in estado.OficiosEstadosNotas)
+                            {
+                                <strong>@nota.FechaHora</strong>@nota.Nota
+                                <br />
+                            }
+                        </div>
+                    </a>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <hr />
+    <div class="col">
+        <h4>Archivos</h4>
+
+        <span class="text-muted">Sin archivos - Función en desarrollo</span>
+    </div>
+</div>

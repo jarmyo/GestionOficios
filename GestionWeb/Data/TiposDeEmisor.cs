@@ -12,7 +12,7 @@ namespace GestionWeb.Data
             Emisores = new HashSet<Emisores>();
         }
 
-        public byte Id { get; set; }
+        public short Id { get; set; }
         public string Nombre { get; set; }
 
         public virtual ICollection<Emisores> Emisores { get; set; }

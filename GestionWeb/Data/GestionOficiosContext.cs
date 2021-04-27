@@ -1,7 +1,6 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.Extensions.Configuration;
 
 #nullable disable
 
@@ -11,7 +10,6 @@ namespace GestionWeb.Data
     {
         public GestionOficiosContext()
         {
-           
         }
 
         public GestionOficiosContext(DbContextOptions<GestionOficiosContext> options)
@@ -29,6 +27,7 @@ namespace GestionWeb.Data
         public virtual DbSet<OficiosArchivado> OficiosArchivado { get; set; }
         public virtual DbSet<OficiosEstados> OficiosEstados { get; set; }
         public virtual DbSet<OficiosEstadosNotas> OficiosEstadosNotas { get; set; }
+        public virtual DbSet<OficiosTermino> OficiosTermino { get; set; }
         public virtual DbSet<OficiosUsuarios> OficiosUsuarios { get; set; }
         public virtual DbSet<Receptores> Receptores { get; set; }
         public virtual DbSet<TipoOficio> TipoOficio { get; set; }
@@ -84,7 +83,6 @@ namespace GestionWeb.Data
                 entity.HasOne(d => d.IdTipoEmisorNavigation)
                     .WithMany(p => p.Emisores)
                     .HasForeignKey(d => d.IdTipoEmisor)
-                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("FK_Emisores_Emisores");
             });
 
@@ -113,8 +111,6 @@ namespace GestionWeb.Data
 
                 entity.Property(e => e.FechaRecepcion).HasColumnType("smalldatetime");
 
-                entity.Property(e => e.FechaTermino).HasColumnType("smalldatetime");
-
                 entity.Property(e => e.Numero)
                     .HasMaxLength(6)
                     .IsUnicode(false);
@@ -142,7 +138,6 @@ namespace GestionWeb.Data
                 entity.HasOne(d => d.IdTipoNavigation)
                     .WithMany(p => p.Oficios)
                     .HasForeignKey(d => d.IdTipo)
-                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("FK_Oficios_TipoOficio");
             });
 
@@ -197,6 +192,18 @@ namespace GestionWeb.Data
                     .HasConstraintName("FK_OficiosEstadosNotas_OficiosEstados");
             });
 
+            modelBuilder.Entity<OficiosTermino>(entity =>
+            {
+                entity.Property(e => e.Id).ValueGeneratedNever();
+
+                entity.Property(e => e.Fecha).HasColumnType("smalldatetime");
+
+                entity.HasOne(d => d.IdNavigation)
+                    .WithOne(p => p.OficiosTermino)
+                    .HasForeignKey<OficiosTermino>(d => d.Id)
+                    .HasConstraintName("FK_OficiosTermino_OficiosTermino");
+            });
+
             modelBuilder.Entity<OficiosUsuarios>(entity =>
             {
                 entity.HasOne(d => d.IdOficioNavigation)
@@ -221,18 +228,14 @@ namespace GestionWeb.Data
 
             modelBuilder.Entity<TipoOficio>(entity =>
             {
-                entity.Property(e => e.Id).ValueGeneratedOnAdd();
-
                 entity.Property(e => e.Nombre)
                     .IsRequired()
-                    .HasMaxLength(40)
+                    .HasMaxLength(100)
                     .IsUnicode(false);
             });
 
             modelBuilder.Entity<TiposDeEmisor>(entity =>
             {
-                entity.Property(e => e.Id).ValueGeneratedOnAdd();
-
                 entity.Property(e => e.Nombre)
                     .IsRequired()
                     .HasMaxLength(30)

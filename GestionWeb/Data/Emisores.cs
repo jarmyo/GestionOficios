@@ -14,7 +14,7 @@ namespace GestionWeb.Data
 
         public short Id { get; set; }
         public string Nombre { get; set; }
-        public byte? IdTipoEmisor { get; set; }
+        public short IdTipoEmisor { get; set; }
 
         public virtual TiposDeEmisor IdTipoEmisorNavigation { get; set; }
         public virtual ICollection<Oficios> Oficios { get; set; }

@@ -19,8 +19,7 @@ namespace GestionWeb.Data
         public short IdReceptor { get; set; }
         public short IdEmisor { get; set; }
         public short IdDepartamento { get; set; }
-        public byte? IdTipo { get; set; }
-        public DateTime? FechaTermino { get; set; }
+        public short IdTipo { get; set; }
         public string Asunto { get; set; }
         public bool Archivado { get; set; }
         public DateTime FechaRecepcion { get; set; }
@@ -30,6 +29,7 @@ namespace GestionWeb.Data
         public virtual Receptores IdReceptorNavigation { get; set; }
         public virtual TipoOficio IdTipoNavigation { get; set; }
         public virtual OficiosArchivado OficiosArchivado { get; set; }
+        public virtual OficiosTermino OficiosTermino { get; set; }
         public virtual ICollection<OficiosEstados> OficiosEstados { get; set; }
         public virtual ICollection<OficiosUsuarios> OficiosUsuarios { get; set; }
     }

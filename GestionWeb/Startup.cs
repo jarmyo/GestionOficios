@@ -14,6 +14,7 @@ namespace GestionWeb
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+            
         }
 
         public IConfiguration Configuration { get; }
@@ -22,7 +23,6 @@ namespace GestionWeb
         public void ConfigureServices(IServiceCollection services)
         {
             Core.ConnectionString = Configuration["gestionDatosConnectionString"];
-
             services.AddDbContext<GestionOficiosContext>(options =>
 
                            options.UseSqlServer(Configuration["gestionDatosConnectionString"])
@@ -38,7 +38,7 @@ namespace GestionWeb
 
             
 
-            services.AddDatabaseDeveloperPageExceptionFilter();
+          //  services.AddDatabaseDeveloperPageExceptionFilter();
             var mvcBuilder = services.AddControllersWithViews();
 
             mvcBuilder.AddRazorRuntimeCompilation();
@@ -50,7 +50,7 @@ namespace GestionWeb
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseMigrationsEndPoint();
+              //  app.UseMigrationsEndPoint();
                 app.UseDeveloperExceptionPage();
                 app.UseBrowserLink();
                 
@@ -71,12 +71,12 @@ namespace GestionWeb
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapRazorPages();
+            {                
                 endpoints.MapControllerRoute(
                  name: "areas",
-                 pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}"
+                 pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}/{offset?}"
                );
+                endpoints.MapRazorPages();
             });           
         }
     }
