@@ -27,10 +27,14 @@ namespace GestionWeb.Areas.Oficios.Pages
 
         [BindProperty]
         public Data.Oficios Oficios { get; set; }
-        public IList<Data.Usuarios> Usuarios { get; set; }
-        public IList<Data.Departamentos> Departamentos { get; set; }
+        [BindProperty]
+        public IList<Usuarios> Usuarios { get; set; }
+        [BindProperty]
+        public IList<Departamentos> Departamentos { get; set; }
+        [BindProperty]
+        public DateTime? OficiosTerminoFecha { get; set; }
 
-        SessionData SessionUser
+    SessionData SessionUser
         {
             get
             {
@@ -42,9 +46,9 @@ namespace GestionWeb.Areas.Oficios.Pages
         {
             var idDep = SessionUser.IdDepartamento;
             ViewData["IdEmisor"] = new SelectList(_context.Emisores, "Id", "Nombre");
-            ViewData["IdReceptor"] = new SelectList(_context.Receptores.Where(e => !e.Oculto && e.Departamento == idDep ), "Id", "Nombre");
+            ViewData["IdReceptor"] = new SelectList(_context.Usuarios.Where(e => !e.Oculto && e.IdDepartamento== idDep ), "Id", "Nombre");
             ViewData["IdTipo"] = new SelectList(_context.TipoOficio, "Id", "Nombre");
-            Usuarios = await _context.Usuarios.Where(r => !r.Oculto && r.IdDepartamento == idDep).ToListAsync();
+            Usuarios = await _context.Usuarios.Where(e => !e.Oculto && e.IdDepartamento == idDep).ToListAsync();
             Departamentos = await _context.Departamentos.Where(r => r.Id!= idDep).ToListAsync();
             return Page();
         }
@@ -56,10 +60,26 @@ namespace GestionWeb.Areas.Oficios.Pages
                 return Page();
             }
 
+            //var idDep = SessionUser.IdDepartamento;
+            //Usuarios = await _context.Usuarios.Where(e => !e.Oculto && e.IdDepartamento == idDep).ToListAsync();
+            //Departamentos = await _context.Departamentos.Where(r => r.Id != idDep).ToListAsync();
+
             Oficios.IdDepartamento = SessionUser.IdDepartamento;
             Oficios.FechaRecepcion = DateTime.Now;
             Oficios = _context.Oficios.Add(Oficios).Entity;
             await _context.SaveChangesAsync();
+
+
+            if (OficiosTerminoFecha != null)
+            {
+                var ot = new OficiosTermino();
+                ot.Fecha = OficiosTerminoFecha.Value;
+                ot.Id = Oficios.Id;
+
+                _context.OficiosTermino.Add(ot);
+                await _context.SaveChangesAsync();
+
+            }
 
             var r = Request.Form["TurnarA"][0];
             _context.OficiosEstados.Add(new OficiosEstados()
@@ -92,7 +112,7 @@ namespace GestionWeb.Areas.Oficios.Pages
                         FechaHora = DateTime.Now,
                         IdEstado = 2,
                         IdOficio = Oficios.Id,
-                        IdUsuario = SessionUser.IdUsuario
+                        IdUsuario = Oficios.IdReceptor
 
                     };
                     estado = _context.OficiosEstados.Add(estado).Entity;

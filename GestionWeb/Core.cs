@@ -39,6 +39,9 @@ namespace GestionWeb
 
         internal static SessionData GetSession(string guid)
         {
+            //if (guid == null)
+            //    guid = "xyzxyz";
+
             if (Core.SessionesActivas.ContainsKey(guid))
             {
                 var t = Core.SessionesActivas[guid];

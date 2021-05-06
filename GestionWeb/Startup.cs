@@ -2,6 +2,7 @@ using GestionWeb.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -35,12 +36,8 @@ namespace GestionWeb
                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<NucleoCompartidoContext>();
             services.AddRazorPages();
-
-            
-
-          //  services.AddDatabaseDeveloperPageExceptionFilter();
-            var mvcBuilder = services.AddControllersWithViews();
-
+            services.AddMvc();
+            var mvcBuilder = services.AddControllersWithViews();            
             mvcBuilder.AddRazorRuntimeCompilation();
         }
 
@@ -65,8 +62,7 @@ namespace GestionWeb
           //  app.UseHttpsRedirection();
             app.UseStaticFiles();
 
-            app.UseRouting();
-
+            app.UseRouting();    
             app.UseAuthentication();
             app.UseAuthorization();
 
@@ -75,9 +71,14 @@ namespace GestionWeb
                 endpoints.MapControllerRoute(
                  name: "areas",
                  pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}/{offset?}"
-               );
+                 );
+
+                endpoints.MapControllerRoute(
+                name: "controllers",
+                pattern: "{controller=Home}/{action=Index}/{id?}/{offset?}"
+                );
                 endpoints.MapRazorPages();
-            });           
+            });
         }
     }
 }

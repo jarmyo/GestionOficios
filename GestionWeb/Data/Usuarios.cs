@@ -9,6 +9,7 @@ namespace GestionWeb.Data
     {
         public Usuarios()
         {
+            Oficios = new HashSet<Oficios>();
             OficiosEstados = new HashSet<OficiosEstados>();
             OficiosUsuarios = new HashSet<OficiosUsuarios>();
         }
@@ -21,6 +22,7 @@ namespace GestionWeb.Data
         public string Email { get; set; }
 
         public virtual Departamentos IdDepartamentoNavigation { get; set; }
+        public virtual ICollection<Oficios> Oficios { get; set; }
         public virtual ICollection<OficiosEstados> OficiosEstados { get; set; }
         public virtual ICollection<OficiosUsuarios> OficiosUsuarios { get; set; }
     }

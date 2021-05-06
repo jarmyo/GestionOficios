@@ -1,19 +1,33 @@
 ﻿@page
-@model GestionWeb.Areas.Oficios.Pages.fold.DetallesModel
+@model             Areas.Oficios.Pages.DetallesModel
 
 @{
     ViewData["Title"] = "Detalles del Oficio";
 }
 <div class="row">
     <h3>@Html.DisplayFor(model => model.Oficios.Numero) - @Html.DisplayFor(model => model.Oficios.Oficio)</h3>
-    
+
     <hr />
     <p>
+
         <a href="~/Oficios/Marcar?id=@Model.Oficios.Id&action=2" class="btn btn-primary my-2">Turnar a alguien</a>
+    
+        @if (Model.MiEstadoOficio == Areas.Oficios.Pages.EstadoOficio.PendienteRecibir)
+        {
         <a href="~/Oficios/Marcar?id=@Model.Oficios.Id&action=3" class="btn btn-success my-2">Aceptar turno</a>
-        <a href="~/Oficios/Marcar?id=@Model.Oficios.Id&action=4" class="btn btn-info my-2">Marcar como contestado</a>
-        <a href="~/Oficios/Marcar?id=@Model.Oficios.Id&action=5" class="btn btn-dark my-2">Confirmar como contestado</a>
+        }
+
+        @if (User.IsInRole("Supervisor"))
+        {
+            <a href="~/Oficios/Marcar?id=@Model.Oficios.Id&action=5" class="btn btn-dark my-2">Confirmar como contestado</a>
+        }
+        else
+        {
+            <a href="~/Oficios/Marcar?id=@Model.Oficios.Id&action=4" class="btn btn-info my-2">Marcar como contestado</a>
+        }
+
         <a href="~/Oficios/Marcar?id=@Model.Oficios.Id&action=7" class="btn btn-warning my-2">Archivar</a>
+
         <a href="~/Oficios/Marcar?id=@Model.Oficios.Id&action=9" class="btn btn-danger my-2">Eliminar</a>
     </p>
     <hr />
@@ -24,9 +38,9 @@
             var timeSpan = Model.Oficios.OficiosTermino.Fecha - DateTime.Now.Date;
             var classL = "alert-warning";
             if (timeSpan.Days < 4)
-                {
-                    classL = "alert-danger";
-                }
+            {
+                classL = "alert-danger";
+            }
             <div class="alert @classL">Termino: @Model.Oficios.OficiosTermino.Fecha Fatan @timeSpan.Days Dias.</div>
             <hr />
         }
@@ -70,37 +84,49 @@
         <div class="row">
             @if (Model.Oficios.OficiosUsuarios.Any())
             {
-            <h4>Usuarios que atienden este oficio</h4>
-            <div class="list-group list-group-flush border-bottom scrollarea">
-                @foreach (var estado in Model.Oficios.OficiosUsuarios)
-                {
-                    <a href="#" class="list-group-item list-group-item-action py-3 lh-tight">
-                        <div class="d-flex w-100 align-items-center justify-content-between">
-                            <strong class="mb-1">@estado.IdUsuarioNavigation.Nombre</strong>                            
-                        </div>                        
-                    </a>
-                }
-            </div>
-            <hr  />
+                <h4>Usuarios que atienden este oficio</h4>
+                <div class="list-group list-group-flush border-bottom scrollarea">
+                    @foreach (var estado in Model.Oficios.OficiosUsuarios)
+                    {
+                        <a href="#" class="list-group-item list-group-item-action py-3 lh-tight">
+                            <div class="d-flex w-100 align-items-center justify-content-between">
+                                <strong class="mb-1">@estado.IdUsuarioNavigation.Nombre</strong>
+                            </div>
+                        </a>
+                    }
+                </div>
+                <hr />
             }
             <h4>Seguimiento</h4>
             <div class="list-group list-group-flush border-bottom scrollarea">
-                @foreach (var estado in Model.Oficios.OficiosEstados)
+                @foreach (var estado in Model.Oficios.OficiosEstados.OrderBy(o=>o.FechaHora) )
                 {
-                    <a href="#" class="list-group-item list-group-item-action py-3 lh-tight">
-                        <div class="d-flex w-100 align-items-center justify-content-between">
-                            <strong class="mb-1">@estado.IdEstadoNavigation.Nombre</strong>
-                            <small class="text-muted">@estado.FechaHora</small>
-                        </div>
-                        <strong class="mb-1">@estado.IdUsuarioNavigation.Nombre</strong>
-                        <div class="col-10 mb-1 small">
+                <a href="#" class="list-group-item list-group-item-action py-3 lh-tight">
+                    <div class="d-flex w-100 align-items-center justify-content-between">
+                        <strong class="mb-1">@estado.IdEstadoNavigation.Nombre</strong>
+                        <small class="text-muted">@estado.FechaHora</small>
+                    </div>
+                    <strong class="mb-1">@estado.IdUsuarioNavigation.Nombre</strong>
+                    <div class="row">
+                        <div class="col-2"></div>
+                        <div class="col-10 mb-1 small" id="NotasDeEstado-@estado.Id">
                             @foreach (var nota in estado.OficiosEstadosNotas)
                             {
-                                <strong>@nota.FechaHora</strong>@nota.Nota
                                 <br />
+                                <strong>@nota.FechaHora</strong>@nota.Nota
+
                             }
                         </div>
-                    </a>
+                    </div>
+                    <div class="row">
+                        <div class="col-2">
+                        </div>
+                        <div class="col-10">
+                            <input class="form-control form-control-sm" placeholder="Agregar nota" id="TextoNotasDeEstado-@estado.Id" onkeyup="AnexarNota(event, @estado.Id);" />
+                        </div>
+                    </div>
+
+                </a>
                 }
             </div>
         </div>
@@ -114,3 +140,33 @@
         <span class="text-muted">Sin archivos - Función en desarrollo</span>
     </div>
 </div>
+<script>
+    function AnexarNota(event, idestado) {
+        console.log(event);
+        if (event.key == "Enter") {
+
+            //Enviar con fetch
+            var t = document.getElementById("TextoNotasDeEstado-" + idestado);
+            fetch('/Oficios/AgregarComentario?id=' + idestado + "&text='" + t.value + "'").then(
+                function (result) {
+                    return result.text();
+                }).then(
+                    function (timeStamp) {                                                
+
+                        if (timeStamp === "error") {
+                            t.value = "";
+                            console.log("error");
+                        }
+                        else {
+                            var d = document.getElementById("NotasDeEstado-" + idestado);
+                            d.innerHTML += '<br/><strong>' + timeStamp + '</strong> ' + t.value;
+                            t.value = "";
+                        }
+                    }
+                );
+        }
+        //var br = document.createElement('br');
+        //var st = document.createElement('strong');
+
+    }
+</script>

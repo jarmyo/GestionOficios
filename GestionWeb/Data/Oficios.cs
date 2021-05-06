@@ -16,17 +16,17 @@ namespace GestionWeb.Data
         public int Id { get; set; }
         public string Numero { get; set; }
         public string Oficio { get; set; }
-        public short IdReceptor { get; set; }
         public short IdEmisor { get; set; }
         public short IdDepartamento { get; set; }
         public short IdTipo { get; set; }
         public string Asunto { get; set; }
         public bool Archivado { get; set; }
+        public int IdReceptor { get; set; }
         public DateTime FechaRecepcion { get; set; }
 
         public virtual Departamentos IdDepartamentoNavigation { get; set; }
         public virtual Emisores IdEmisorNavigation { get; set; }
-        public virtual Receptores IdReceptorNavigation { get; set; }
+        public virtual Usuarios IdReceptorNavigation { get; set; }
         public virtual TipoOficio IdTipoNavigation { get; set; }
         public virtual OficiosArchivado OficiosArchivado { get; set; }
         public virtual OficiosTermino OficiosTermino { get; set; }

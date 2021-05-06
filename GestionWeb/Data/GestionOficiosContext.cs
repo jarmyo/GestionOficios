@@ -29,7 +29,6 @@ namespace GestionWeb.Data
         public virtual DbSet<OficiosEstadosNotas> OficiosEstadosNotas { get; set; }
         public virtual DbSet<OficiosTermino> OficiosTermino { get; set; }
         public virtual DbSet<OficiosUsuarios> OficiosUsuarios { get; set; }
-        public virtual DbSet<Receptores> Receptores { get; set; }
         public virtual DbSet<TipoOficio> TipoOficio { get; set; }
         public virtual DbSet<TiposDeEmisor> TiposDeEmisor { get; set; }
         public virtual DbSet<TiposDeTerminos> TiposDeTerminos { get; set; }
@@ -88,8 +87,6 @@ namespace GestionWeb.Data
 
             modelBuilder.Entity<Estados>(entity =>
             {
-                entity.Property(e => e.Id).ValueGeneratedOnAdd();
-
                 entity.Property(e => e.Nombre)
                     .IsRequired()
                     .HasMaxLength(30)
@@ -133,6 +130,7 @@ namespace GestionWeb.Data
                 entity.HasOne(d => d.IdReceptorNavigation)
                     .WithMany(p => p.Oficios)
                     .HasForeignKey(d => d.IdReceptor)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Oficios_Receptores");
 
                 entity.HasOne(d => d.IdTipoNavigation)
@@ -216,14 +214,6 @@ namespace GestionWeb.Data
                     .HasForeignKey(d => d.IdUsuario)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_OficiosUsuarios_Usuarios");
-            });
-
-            modelBuilder.Entity<Receptores>(entity =>
-            {
-                entity.Property(e => e.Nombre)
-                    .IsRequired()
-                    .HasMaxLength(40)
-                    .IsUnicode(false);
             });
 
             modelBuilder.Entity<TipoOficio>(entity =>
