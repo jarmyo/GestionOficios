@@ -80,6 +80,60 @@ namespace GestionWeb.Controllers
             }
         }
 
+
+        public async Task<ActionResult> TurnarOficio(int id)
+        {
+            try
+            {
+                var user = Request.Query["user"].First();
+                var u = Convert.ToInt32(user);
+                var x = await turnarOficio(id, u, SessionUser.IdUsuario,"");
+                return Ok(x);
+            }
+            catch
+            {
+                return NotFound();
+            }
+        }
+
+
+        public static async Task<string> turnarOficio(int OficiosId, int IdUsuario, int OficiosIdReceptor, string text= "desde recepción ")
+        {
+            var _context = new Data.GestionOficiosContext();
+
+            var user = new OficiosUsuarios
+            {
+                IdOficio = OficiosId,
+                IdUsuario = IdUsuario /* Convert.ToInt32(value[1])*/
+            };
+            user = _context.OficiosUsuarios.Add(user).Entity;
+           
+            var estado = new OficiosEstados()
+            {
+                FechaHora = DateTime.Now,
+                IdEstado = 2,
+                IdOficio = OficiosId,
+                IdUsuario = OficiosIdReceptor
+
+            };
+            estado = _context.OficiosEstados.Add(estado).Entity;
+            await _context.SaveChangesAsync();
+
+            var nom = _context.Usuarios.First(u => u.Id == user.IdUsuario).Nombre;
+
+            _context.OficiosEstadosNotas.Add(new OficiosEstadosNotas()
+            {
+                FechaHora = DateTime.Now,
+                IdEstadoOficio = estado.Id,
+                Nota = "Turnado "+ text+ "a " + _context.Usuarios.First(u => u.Id == user.IdUsuario).Nombre
+            });
+
+
+            await _context.SaveChangesAsync();
+            return nom;
+        }
+
+
         public string QuitarComentario(int id)
         {
             // este proceso solo debé hacerse 

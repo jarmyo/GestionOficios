@@ -101,30 +101,32 @@ namespace GestionWeb.Areas.Oficios.Pages
 
                 if (value[0] == "u")
                 {
-                    var user = new OficiosUsuarios
-                    {
-                        IdOficio = Oficios.Id,
-                        IdUsuario = Convert.ToInt32(value[1])
-                    };
-                    user = _context.OficiosUsuarios.Add(user).Entity;
-                    var estado = new OficiosEstados()
-                    {
-                        FechaHora = DateTime.Now,
-                        IdEstado = 2,
-                        IdOficio = Oficios.Id,
-                        IdUsuario = Oficios.IdReceptor
+                    Controllers.Oficios.turnarOficio(Oficios.Id, Convert.ToInt32(value[1]), Oficios.IdReceptor);
 
-                    };
-                    estado = _context.OficiosEstados.Add(estado).Entity;
-                    await _context.SaveChangesAsync();
+                    //var user = new OficiosUsuarios
+                    //{
+                    //    IdOficio = Oficios.Id,
+                    //    IdUsuario = Convert.ToInt32(value[1])
+                    //};
+                    //user = _context.OficiosUsuarios.Add(user).Entity;
+                    //var estado = new OficiosEstados()
+                    //{
+                    //    FechaHora = DateTime.Now,
+                    //    IdEstado = 2,
+                    //    IdOficio = Oficios.Id,
+                    //    IdUsuario = Oficios.IdReceptor
 
-                    _context.OficiosEstadosNotas.Add(new OficiosEstadosNotas()
-                    {
-                        FechaHora = DateTime.Now,
-                        IdEstadoOficio = estado.Id,
-                        Nota = "Turnado desde recepción a " + _context.Usuarios.First(u => u.Id == user.IdUsuario).Nombre
-                    });
-                    await _context.SaveChangesAsync();
+                    //};
+                    //estado = _context.OficiosEstados.Add(estado).Entity;
+                    //await _context.SaveChangesAsync();
+
+                    //_context.OficiosEstadosNotas.Add(new OficiosEstadosNotas()
+                    //{
+                    //    FechaHora = DateTime.Now,
+                    //    IdEstadoOficio = estado.Id,
+                    //    Nota = "Turnado desde recepción a " + _context.Usuarios.First(u => u.Id == user.IdUsuario).Nombre
+                    //});
+                    //await _context.SaveChangesAsync();
                 }
                 else if (value[0] == "d")
                 {

@@ -30,6 +30,7 @@ namespace GestionWeb.Areas.Oficios.Pages
             }
         }
         public Data.Oficios Oficios { get; set; }
+        public IList<Data.Usuarios> Usuarios { get; set; }
         public EstadoOficio MiEstadoOficio;
 
         public async Task<IActionResult> OnGetAsync(int? id)
@@ -64,6 +65,8 @@ namespace GestionWeb.Areas.Oficios.Pages
             {
                 MiEstadoOficio = EstadoOficio.NoEsMio;
             }
+
+            Usuarios =  await _context.Usuarios.Where(u => u.IdDepartamento == SessionUser.IdDepartamento && u.Oculto == false).ToListAsync();
 
             return Page();
         }

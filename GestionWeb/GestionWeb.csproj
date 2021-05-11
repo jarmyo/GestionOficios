@@ -5,19 +5,15 @@
     <UserSecretsId>aspnet-GestionWeb-0F9473F6-D1CB-4997-B6AD-EB03A38EC253</UserSecretsId>
     <CopyRefAssembliesToPublishDirectory>true</CopyRefAssembliesToPublishDirectory>
   </PropertyGroup>
-
   <ItemGroup>
-    <Content Remove="bundleconfig.json" />
+    <Content Remove="bundleconfig.json" />    
   </ItemGroup>
-
   <ItemGroup>
     <_ContentIncludedByDefault Remove="wwwroot\css\site.min.css" />
   </ItemGroup>
-
-  <ItemGroup>
+ <ItemGroup>
     <None Include="bundleconfig.json" />
   </ItemGroup>
-
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="5.0.5" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="5.0.4" />
@@ -34,16 +30,15 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Microsoft.TypeScript.MSBuild" Version="4.2.4">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Web.BrowserLink" Version="2.2.0" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="5.0.2" />
   </ItemGroup>
-
   <ItemGroup>
-    <Folder Include="Data\" />
     <Folder Include="Models\" />
-    <Folder Include="wwwroot\css\" />
     <Folder Include="wwwroot\images\" />
-    <Folder Include="wwwroot\js\" />
   </ItemGroup>
-
 </Project>
