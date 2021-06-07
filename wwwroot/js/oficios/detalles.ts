@@ -3,13 +3,10 @@
     myModal.hide();
 
     fetch('/Oficios/TurnarOficio?id=' + oficio + "&user=" + user).then(
-        function (result) {
-            return result.text();
-        }).then(
+        function (result) { return result.text(); }).then(
             function (nombreUsuario) {
                 console.log(nombreUsuario);
                 window.location.reload(true);
-
             }
         );
 }
@@ -39,9 +36,4 @@ function AnexarNota(event, idestado) {
 
 const inputElement = document.getElementById("subeArchivos") as HTMLInputElement;
 inputElement.addEventListener("change", handleFiles, false);
-function handleFiles() {
-    const fileList = this.files; /* now you can work with the file list */
-
-
-
-}
+function handleFiles() { const fileList = this.files; /* now you can work with the file list */ }

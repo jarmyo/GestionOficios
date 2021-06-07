@@ -19,6 +19,7 @@
     <None Include="bundleconfig.json" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="bootstrap" Version="5.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="5.0.5" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="5.0.4" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="5.0.4" />
