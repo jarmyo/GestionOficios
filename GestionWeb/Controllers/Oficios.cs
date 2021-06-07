@@ -28,7 +28,7 @@ namespace GestionWeb.Controllers
 
         public IActionResult Marcar(int id)
         {
-            var action = Convert.ToInt32( Request.Query["action"]);
+            var action = Convert.ToInt32(Request.Query["action"]);
 
             switch (action)
             {
@@ -58,7 +58,7 @@ namespace GestionWeb.Controllers
                     }
             }
 
-            return Redirect("/Oficios/Detalles?id="+id);
+            return Redirect("/Oficios/Detalles?id=" + id);
         }
 
         public string AgregarComentario(int id)
@@ -68,7 +68,7 @@ namespace GestionWeb.Controllers
                 var r = Request.Query["text"];
                 var nota = new OficiosEstadosNotas();
                 nota.FechaHora = DateTime.Now;
-                nota.Nota = r;                
+                nota.Nota = r;
                 nota.IdEstadoOficio = id;
                 _context.OficiosEstadosNotas.Add(nota);
                 _context.SaveChanges();
@@ -80,14 +80,13 @@ namespace GestionWeb.Controllers
             }
         }
 
-
         public async Task<ActionResult> TurnarOficio(int id)
         {
             try
             {
                 var user = Request.Query["user"].First();
                 var u = Convert.ToInt32(user);
-                var x = await turnarOficio(id, u, SessionUser.IdUsuario,"");
+                var x = await turnarOficio(id, u, SessionUser.IdUsuario, "");
                 return Ok(x);
             }
             catch
@@ -96,22 +95,75 @@ namespace GestionWeb.Controllers
             }
         }
 
-
-        public static async Task<string> turnarOficio(int OficiosId, int IdUsuario, int OficiosIdReceptor, string text= "desde recepción ")
+        public async Task<ActionResult> CrearNuevoEmisor()
         {
-            var _context = new Data.GestionOficiosContext();
+            var nombre = Request.Query["nombre"].First();
+            var tipo = short.Parse( Request.Query["tipo"].First());
+
+            var em = _context.Emisores.Add(new Emisores() { Nombre = nombre, IdTipoEmisor = tipo }).Entity;
+            try
+            {
+                await _context.SaveChangesAsync();
+                return Json(em.Id);
+            }
+            catch
+            {
+                return Json("error");
+            }
+        }
+
+        public async Task<ActionResult> CrearNuevoTipoOficio()
+        {
+            var nombre = Request.Query["nombre"].First();            
+            var em = _context.TipoOficio.Add(new TipoOficio() { Nombre = nombre }).Entity;
+            try
+            {
+                await _context.SaveChangesAsync();
+                return Json(em.Id);
+            }
+            catch
+            {
+                return Json("error");
+            }
+        }
+
+        public async Task<ActionResult> ArchivarOficio(int id)
+        {
+            try
+            {                
+                var idCajon = Convert.ToInt16(Request.Query["caja"].First());
+                var archivo = new OficiosArchivado()
+                {
+                    Id = id,
+                    IdCajon = idCajon
+                };
+
+                _context.OficiosArchivado.Add(archivo);
+                await _context.SaveChangesAsync();
+
+                return Ok();
+            }
+            catch
+            {
+                return NotFound();
+            }
+        }
+
+        public static async Task<string> turnarOficio(int OficiosId, int IdUsuario, int OficiosIdReceptor, string text = "desde recepción ")
+        {
+            var _context = new GestionOficiosContext();
 
             var user = new OficiosUsuarios
             {
                 IdOficio = OficiosId,
-                IdUsuario = IdUsuario /* Convert.ToInt32(value[1])*/
+                IdUsuario = IdUsuario 
             };
             user = _context.OficiosUsuarios.Add(user).Entity;
-           
+            var nom = _context.Usuarios.First(u => u.Id == user.IdUsuario).Nombre;
             var estado = new OficiosEstados()
             {
                 FechaHora = DateTime.Now,
-                IdEstado = 2,
+                IdEstado = EstadoOficio.PendienteRecibir,
                 IdOficio = OficiosId,
                 IdUsuario = OficiosIdReceptor
 
@@ -119,26 +171,24 @@ namespace GestionWeb.Controllers
             estado = _context.OficiosEstados.Add(estado).Entity;
             await _context.SaveChangesAsync();
 
-            var nom = _context.Usuarios.First(u => u.Id == user.IdUsuario).Nombre;
-
-            _context.OficiosEstadosNotas.Add(new OficiosEstadosNotas()
+            if (!nom.ToLower().Contains("archivo"))
             {
-                FechaHora = DateTime.Now,
-                IdEstadoOficio = estado.Id,
-                Nota = "Turnado "+ text+ "a " + _context.Usuarios.First(u => u.Id == user.IdUsuario).Nombre
-            });
-
-
-            await _context.SaveChangesAsync();
+                _context.OficiosEstadosNotas.Add(new OficiosEstadosNotas()
+                {
+                    FechaHora = DateTime.Now,
+                    IdEstadoOficio = estado.Id,
+                    Nota = "Turnado " + text + "a " + nom
+                });
+                await _context.SaveChangesAsync();
+            }
+            
             return nom;
         }
-
 
         public string QuitarComentario(int id)
         {
             // este proceso solo debé hacerse 
             return "";
         }
-
     }
 }

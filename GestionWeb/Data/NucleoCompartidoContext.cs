@@ -21,7 +21,6 @@ namespace GestionWeb.Data
         {
             base.OnModelCreating(modelBuilder);
         }
-
     }
 
     public partial class GestionOficiosContext : DbContext
@@ -34,5 +33,4 @@ namespace GestionWeb.Data
             }
         }
     }
-
 }

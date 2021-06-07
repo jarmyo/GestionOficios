@@ -32,11 +32,12 @@
                     <label class="form-label">Quien emite</label>
                     <select asp-for="Oficios.IdEmisor" class="form-select" asp-items="ViewBag.IdEmisor"></select>
                 </div>
+                <button type="button" data-bs-toggle="modal" data-bs-target="#agregaremisor" class="btn btn-sm my-2 btn-warning">Agregar nuevo emisor</button>
                 <div class="form-group mb-2">
                     <label class="form-label">Tipo Oficio</label>
                     <select asp-for="Oficios.IdTipo" class="form-select" asp-items="ViewBag.IdTipo"></select>
                 </div>
-
+                <button type="button" data-bs-toggle="modal" data-bs-target="#agregartipo" class="btn btn-sm my-2 btn-warning">Agregar nuevo tipo</button>
                 <div class="form-group mb-2">
                     <label asp-for="Oficios.Asunto" class="form-label"></label>
                     <input asp-for="Oficios.Asunto" class="form-control" />
@@ -80,5 +81,46 @@
             </div>
         </div>
     </form>
-
 </div>
+<div class="modal fade" id="agregaremisor" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Nuevo Emisor</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <label class="form-label" for="NombreEmisor">Nombre Emisor</label>
+                <input class="form-control" required="" maxlength="40" type="text" id="NombreEmisor" value="">
+                <label class="form-label" for="TipoEmisor">Tipo de Emisor</label>
+                <select class="form-select" data-val="true" id="TipoEmisor">
+                    @foreach (var r in Model.TipoEmisores)
+                    {
+                        <option value="@r.Id">@r.Nombre</option>
+                    }
+                </select>
+            </div>
+            <div class="modal-footer">
+                <button type="button" onclick="AgregarNuevoEmisor();" class="btn btn-primary">Guardar y Seleccionar</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="agregartipo" tabindex="-1" aria-labelledby="exampleModalLabel2" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel2">Nuevo Tipo de Oficio</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <label class="form-label" for="NombreTipo">Nombre Tipo</label>
+                <input class="form-control" required="" maxlength="100" type="text" id="NombreTipo" value="">
+            </div>
+            <div class="modal-footer">
+                <button type="button" onclick="AgregarNuevoTipoOficio();" class="btn btn-primary">Guardar</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="/js/oficios/nuevo.js"></script>

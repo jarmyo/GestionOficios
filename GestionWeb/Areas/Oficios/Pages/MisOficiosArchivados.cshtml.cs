@@ -10,12 +10,12 @@ using Microsoft.EntityFrameworkCore;
 namespace GestionWeb.Areas.Oficios.Pages
 {
     [Authorize]
-    public class MisOficiosModel : PageModel
+    public class MisOficiosArchivadosModel : PageModel
     {
         private readonly Data.GestionOficiosContext _context;
         private readonly UserManager<IdentityUser> _userManager;
 
-        public MisOficiosModel(UserManager<IdentityUser> userManager, Data.GestionOficiosContext context)
+        public MisOficiosArchivadosModel(UserManager<IdentityUser> userManager, Data.GestionOficiosContext context)
         {
             _context = context;
             _userManager = userManager;
@@ -34,9 +34,9 @@ namespace GestionWeb.Areas.Oficios.Pages
         public async Task OnGetAsync()
         {            
 
-            Users = await _context.Usuarios.Where(u=>u.Oculto==false) .ToListAsync();
+            Users = await _context.Usuarios.Where(o=>o.Oculto==false).ToListAsync();
             var yo = await _context.Usuarios.FirstAsync(u => u.Id == SessionUser.IdUsuario);
-            Oficios = yo.OficiosUsuarios.Select(o => o.IdOficioNavigation).Where(o => o.Archivado == false).OrderByDescending(o => o.FechaRecepcion).ToList();
+            Oficios = yo.OficiosUsuarios.Select(o => o.IdOficioNavigation).Where(o => o.Archivado == true).OrderByDescending(o => o.FechaRecepcion).ToList();
         }
     }
 }

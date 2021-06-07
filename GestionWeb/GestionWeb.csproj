@@ -5,6 +5,10 @@
     <UserSecretsId>aspnet-GestionWeb-0F9473F6-D1CB-4997-B6AD-EB03A38EC253</UserSecretsId>
     <CopyRefAssembliesToPublishDirectory>true</CopyRefAssembliesToPublishDirectory>
   </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <PlatformTarget>x64</PlatformTarget>
+  </PropertyGroup>
   <ItemGroup>
     <Content Remove="bundleconfig.json" />    
   </ItemGroup>
@@ -29,11 +33,7 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="5.0.5">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="Microsoft.TypeScript.MSBuild" Version="4.2.4">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
+    </PackageReference>    
     <PackageReference Include="Microsoft.VisualStudio.Web.BrowserLink" Version="2.2.0" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="5.0.2" />
   </ItemGroup>

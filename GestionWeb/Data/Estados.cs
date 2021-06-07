@@ -12,7 +12,7 @@ namespace GestionWeb.Data
             OficiosEstados = new HashSet<OficiosEstados>();
         }
 
-        public byte Id { get; set; }
+        public EstadoOficio Id { get; set; }
         public string Nombre { get; set; }
         public int Orden { get; set; }
         public byte? DependeDe { get; set; }

@@ -30,5 +30,4 @@ namespace GestionWeb.Areas.Oficios.Pages
             Oficios = await _context.Oficios.Where(o => o.IdTipo ==id).OrderByDescending(o => o.FechaRecepcion).ToListAsync();
         }
     }
-
 }

@@ -9,8 +9,10 @@
 
     <hr />
     <p>
+        @if (!Model.Oficios.Archivado)
+        {
         <button data-bs-toggle="modal" data-bs-target="#modalTurnar" class="btn btn-primary my-2">Turnar a alguien</button>
-        @if (Model.MiEstadoOficio == Areas.Oficios.Pages.EstadoOficio.PendienteRecibir)
+        @if (Model.MiEstadoOficio == EstadoOficio.PendienteRecibir)
         {
             <button href="~/Oficios/Marcar?id=@Model.Oficios.Id&action=3" class="btn btn-success my-2">Aceptar turno</button>
         }
@@ -22,22 +24,33 @@
         {
             <button onclick="Marcar(@Model.Oficios.Id,4)" class="btn btn-info my-2">Marcar como contestado</button>
         }
-        <button onclick="Marcar(@Model.Oficios.Id,7)" class="btn btn-warning my-2">Archivar</button>
-        <button onclick="Marcar(@Model.Oficios.Id,9)" class="btn btn-danger my-2">Eliminar</button>
+        @if (User.IsInRole("Supervisor"))
+        {
+            <button onclick="Marcar(@Model.Oficios.Id,7)" class="btn btn-warning my-2">Archivar</button>        
+        }
+        }
+        @if (User.IsInRole("AdministradorGeneral"))
+        {            
+            <button onclick="Marcar(@Model.Oficios.Id,9)" class="btn btn-danger my-2">Eliminar</button>
+        }
     </p>
     <hr />
     <div class="col-6">
         @if (Model.Oficios.OficiosTermino != null)
         {
+            @if (Model.Oficios.Archivado == false)
+            {
             <h4>Tiene termino</h4>
             var timeSpan = Model.Oficios.OficiosTermino.Fecha - DateTime.Now.Date;
             var classL = "alert-warning";
-            if (timeSpan.Days < 4)
-            {
-                classL = "alert-danger";
+            
+                if (timeSpan.Days < 4)
+                {
+                    classL = "alert-danger";
+                }
+                <div class="alert @classL">Termino: @Model.Oficios.OficiosTermino.Fecha Fatan @timeSpan.Days Dias.</div>
+                <hr />
             }
-            <div class="alert @classL">Termino: @Model.Oficios.OficiosTermino.Fecha Fatan @timeSpan.Days Dias.</div>
-            <hr />
         }
 
         <h4>Generales</h4>
@@ -100,8 +113,8 @@
                         <div class="d-flex w-100 align-items-center justify-content-between">
                             <strong class="mb-1">@estado.IdEstadoNavigation.Nombre</strong> @estado.IdUsuarioNavigation.Nombre
                             <small class="text-muted">@estado.FechaHora.ToString("g")</small>
-                        </div>                        
-                        <div class="row">                            
+                        </div>
+                        <div class="row">
                             <div class="col-12 mb-1 small" id="NotasDeEstado-@estado.Id">
                                 @foreach (var nota in estado.OficiosEstadosNotas)
                                 {
@@ -110,14 +123,17 @@
                                 }
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-2">
-                            </div>
-                            <div class="col-10">
-                                <input class="form-control form-control-sm" placeholder="Agregar nota" id="TextoNotasDeEstado-@estado.Id" onkeyup="AnexarNota(event, @estado.Id);" />
-                            </div>
-                        </div>
-
+                        @if (!Model.Oficios.Archivado)
+                        {
+                            @if (estado.IdUsuario == @Model.SessionUser.IdUsuario)
+                            {
+                                <div class="row">                            
+                                    <div class="col">
+                                        <input class="form-control form-control-sm" placeholder="Agregar nota" id="TextoNotasDeEstado-@estado.Id" onkeyup="AnexarNota(event, @estado.Id);" />
+                                    </div>
+                                </div>
+                            }
+                    }
                     </a>
                 }
             </div>
@@ -128,7 +144,20 @@
     <hr />
     <div class="col">
         <h4>Archivos</h4>
-        <span class="text-muted">Sin archivos - Función en desarrollo</span>
+        @if (Model.Oficios.OficiosDocumentos.Any())
+        {
+            
+        }
+        else
+        {
+        <span class="text-muted">Sin archivos</span>        
+        }
+        <br />
+        <form method="post" enctype="multipart/form-data" class="rows">
+        <input class="form-control form-control-sm" type="file" id="subeArchivos" name="subeArchivos"  multiple />
+        <input type="submit" value="adjuntar archivos" class="btn btn-sm btn-primary"  />
+        <small>Solo se permiten archivos de word, excel y pdf.</small>
+        </form>
     </div>
 </div>
 <div class="modal" tabindex="-1" id="modalTurnar">
@@ -139,19 +168,17 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-            <div class="list-group">  
-                @foreach (var us in Model.Usuarios)
-                {
-                    <a onclick="turnarOficio(@Model.Oficios.Id,@us.Id)" class="list-group-item list-group-item-action">@us.Nombre</a>
-                }
-            </div>
+                <div class="list-group">
+                    @foreach (var us in Model.Usuarios)
+                    {
+                        <a onclick="turnarOficio(@Model.Oficios.Id,@us.Id)" class="list-group-item list-group-item-action">@us.Nombre</a>
+                    }
+                </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>                
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
             </div>
         </div>
     </div>
 </div>
-<script src="/js/Oficios/Detalles.js" ></script>
-<script>    
-</script>
+<script src="/js/oficios/detalles.js"></script>

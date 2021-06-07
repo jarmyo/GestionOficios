@@ -26,7 +26,6 @@ namespace GestionWeb
             }
         }
 
-
         public IActionResult Index()
         {
 
@@ -37,6 +36,11 @@ namespace GestionWeb
         {
             SessionUser.IdUsuario = id;
             return Redirect("~/Oficios/MisOficios");
+        }
+        public IActionResult CambiaUsuarioArchivo(int id)
+        {
+            SessionUser.IdUsuario = id;
+            return Redirect("~/Oficios/MisOficiosArchivados");
         }
     }
 }

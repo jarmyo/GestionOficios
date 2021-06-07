@@ -15,7 +15,7 @@ namespace GestionWeb.Data
         public int Id { get; set; }
         public int IdOficio { get; set; }
         public DateTime FechaHora { get; set; }
-        public byte IdEstado { get; set; }
+        public EstadoOficio IdEstado { get; set; }
         public int IdUsuario { get; set; }
 
         public virtual Estados IdEstadoNavigation { get; set; }

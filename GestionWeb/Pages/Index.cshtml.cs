@@ -20,8 +20,6 @@ namespace GestionWeb.Pages
         public void OnGet()
         {
 
-
-
         }
     }
 }

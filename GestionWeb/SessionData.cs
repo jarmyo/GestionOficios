@@ -1,6 +1,6 @@
 ﻿namespace GestionWeb
 {
-    internal class SessionData
+    public class SessionData
     {
         internal SessionData()
         {

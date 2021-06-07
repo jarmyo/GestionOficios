@@ -31,10 +31,14 @@ namespace GestionWeb.Areas.Oficios.Pages
         public IList<Usuarios> Usuarios { get; set; }
         [BindProperty]
         public IList<Departamentos> Departamentos { get; set; }
+
+        [BindProperty]
+        public IList<TiposDeEmisor> TipoEmisores { get; set; }
+
         [BindProperty]
         public DateTime? OficiosTerminoFecha { get; set; }
 
-    SessionData SessionUser
+        SessionData SessionUser
         {
             get
             {
@@ -46,10 +50,12 @@ namespace GestionWeb.Areas.Oficios.Pages
         {
             var idDep = SessionUser.IdDepartamento;
             ViewData["IdEmisor"] = new SelectList(_context.Emisores, "Id", "Nombre");
-            ViewData["IdReceptor"] = new SelectList(_context.Usuarios.Where(e => !e.Oculto && e.IdDepartamento== idDep ), "Id", "Nombre");
+            ViewData["IdReceptor"] = new SelectList(_context.Usuarios.Where(e => !e.Oculto && e.IdDepartamento == idDep), "Id", "Nombre");
             ViewData["IdTipo"] = new SelectList(_context.TipoOficio, "Id", "Nombre");
+            TipoEmisores = await _context.TiposDeEmisor.ToListAsync();
+            //ViewData["IdTipoEmisor"] = new SelectList(_context.TiposDeEmisor, "Id", "Nombre");
             Usuarios = await _context.Usuarios.Where(e => !e.Oculto && e.IdDepartamento == idDep).ToListAsync();
-            Departamentos = await _context.Departamentos.Where(r => r.Id!= idDep).ToListAsync();
+            Departamentos = await _context.Departamentos.Where(r => r.Id != idDep).ToListAsync();
             return Page();
         }
         public async Task<IActionResult> OnPostAsync()
@@ -69,7 +75,6 @@ namespace GestionWeb.Areas.Oficios.Pages
             Oficios = _context.Oficios.Add(Oficios).Entity;
             await _context.SaveChangesAsync();
 
-
             if (OficiosTerminoFecha != null)
             {
                 var ot = new OficiosTermino();
@@ -85,7 +90,7 @@ namespace GestionWeb.Areas.Oficios.Pages
             _context.OficiosEstados.Add(new OficiosEstados()
             {
                 FechaHora = DateTime.Now,
-                IdEstado = 1,
+                IdEstado = EstadoOficio.Capturado,
                 IdOficio = Oficios.Id,
                 IdUsuario = Oficios.IdReceptor
 
@@ -97,44 +102,19 @@ namespace GestionWeb.Areas.Oficios.Pages
                 var value = r.Split('-');
                 //TODO: validar que sea un valor aceptable
 
-
-
                 if (value[0] == "u")
                 {
-                    Controllers.Oficios.turnarOficio(Oficios.Id, Convert.ToInt32(value[1]), Oficios.IdReceptor);
-
-                    //var user = new OficiosUsuarios
-                    //{
-                    //    IdOficio = Oficios.Id,
-                    //    IdUsuario = Convert.ToInt32(value[1])
-                    //};
-                    //user = _context.OficiosUsuarios.Add(user).Entity;
-                    //var estado = new OficiosEstados()
-                    //{
-                    //    FechaHora = DateTime.Now,
-                    //    IdEstado = 2,
-                    //    IdOficio = Oficios.Id,
-                    //    IdUsuario = Oficios.IdReceptor
-
-                    //};
-                    //estado = _context.OficiosEstados.Add(estado).Entity;
-                    //await _context.SaveChangesAsync();
-
-                    //_context.OficiosEstadosNotas.Add(new OficiosEstadosNotas()
-                    //{
-                    //    FechaHora = DateTime.Now,
-                    //    IdEstadoOficio = estado.Id,
-                    //    Nota = "Turnado desde recepción a " + _context.Usuarios.First(u => u.Id == user.IdUsuario).Nombre
-                    //});
-                    //await _context.SaveChangesAsync();
+                    var x = await Controllers.Oficios.turnarOficio(Oficios.Id, Convert.ToInt32(value[1]), Oficios.IdReceptor);
+                    if (x.ToLower().Contains("archivo"))
+                    {
+                        Oficios.Archivado = true;
+                        await _context.SaveChangesAsync();
+                    }
                 }
                 else if (value[0] == "d")
                 {
                     //turnar a un departamento
                 }
-
-                
-
             }
             //TODO: subir archivos al contenedor
             if (Request.Form.Files.Any())

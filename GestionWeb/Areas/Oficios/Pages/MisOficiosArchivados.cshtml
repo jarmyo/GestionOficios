@@ -1,7 +1,7 @@
 ﻿@page
-@model GestionWeb.Areas.Oficios.Pages.MisOficiosModel
+@model GestionWeb.Areas.Oficios.Pages.MisOficiosArchivadosModel
 @{
-    ViewData["Title"] = "Mis oficios turnados";
+    ViewData["Title"] = "Mis oficios archivados";
 }
 <h1>@ViewData["Title"]</h1>
 <div class="container-fluid">
@@ -11,7 +11,7 @@
             @foreach (var c in Model.Users)
             {
                 <div class="col">
-                    <a href="~/Development/CambiaUsuario/@c.Id" class="btn btn-primary">@c.Nombre</a>
+                    <a href="~/Development/CambiaUsuarioArchivo/@c.Id" class="btn btn-primary">@c.Nombre</a>
                 </div>
             }
         </div>

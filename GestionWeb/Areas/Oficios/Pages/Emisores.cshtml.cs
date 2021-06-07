@@ -27,5 +27,4 @@ namespace GestionWeb.Areas.Oficios.Pages
             Oficios = await _context.Oficios.Where(o => o.IdEmisor == id).OrderByDescending(o => o.FechaRecepcion).ToListAsync();
         }
     }
-
 }

@@ -1,12 +1,4 @@
-﻿////function Marcar(ido, accion) {
-////    //Llenar de información
-////    if (accion == 2) {
-////        var myModal = new bootstrap.Modal(document.getElementById('modalTurnar'));
-////        myModal.show();
-////    }
-////}
-
-function turnarOficio(oficio, user) {
+﻿function turnarOficio(oficio, user) {
     var myModal = bootstrap.Modal.getInstance(document.getElementById('modalTurnar'))
     myModal.hide();
 
@@ -24,9 +16,7 @@ function turnarOficio(oficio, user) {
 
 function AnexarNota(event, idestado) {
     if (event.key == "Enter") {
-
-        //Enviar con fetch
-        var t = document.getElementById("TextoNotasDeEstado-" + idestado);
+        var t = document.getElementById("TextoNotasDeEstado-" + idestado) as HTMLInputElement;
         fetch('/Oficios/AgregarComentario?id=' + idestado + "&text='" + t.value + "'").then(
             function (result) {
                 return result.text();
@@ -45,4 +35,13 @@ function AnexarNota(event, idestado) {
                 }
             );
     }
+}
+
+const inputElement = document.getElementById("subeArchivos") as HTMLInputElement;
+inputElement.addEventListener("change", handleFiles, false);
+function handleFiles() {
+    const fileList = this.files; /* now you can work with the file list */
+
+
+
 }

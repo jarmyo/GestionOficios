@@ -25,6 +25,7 @@ namespace GestionWeb.Data
         public virtual DbSet<FechasInhabiles> FechasInhabiles { get; set; }
         public virtual DbSet<Oficios> Oficios { get; set; }
         public virtual DbSet<OficiosArchivado> OficiosArchivado { get; set; }
+        public virtual DbSet<OficiosDocumentos> OficiosDocumentos { get; set; }
         public virtual DbSet<OficiosEstados> OficiosEstados { get; set; }
         public virtual DbSet<OficiosEstadosNotas> OficiosEstadosNotas { get; set; }
         public virtual DbSet<OficiosTermino> OficiosTermino { get; set; }
@@ -89,7 +90,7 @@ namespace GestionWeb.Data
             {
                 entity.Property(e => e.Nombre)
                     .IsRequired()
-                    .HasMaxLength(30)
+                    .HasMaxLength(50)
                     .IsUnicode(false);
             });
 
@@ -153,6 +154,19 @@ namespace GestionWeb.Data
                     .HasForeignKey(d => d.IdCajon)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_OficiosArchivado_Cajon");
+            });
+
+            modelBuilder.Entity<OficiosDocumentos>(entity =>
+            {
+                entity.Property(e => e.filename)
+                    .IsRequired()
+                    .HasMaxLength(150)
+                    .IsUnicode(false);
+
+                entity.HasOne(d => d.IdOficioNavigation)
+                    .WithMany(p => p.OficiosDocumentos)
+                    .HasForeignKey(d => d.IdOficio)
+                    .HasConstraintName("FK_OficiosDocumentos_Oficios");
             });
 
             modelBuilder.Entity<OficiosEstados>(entity =>
