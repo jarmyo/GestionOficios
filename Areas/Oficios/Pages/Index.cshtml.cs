@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using System.Linq;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.EntityFrameworkCore;
-using GestionWeb.Data;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -34,7 +28,7 @@ namespace GestionWeb.Areas.Oficios.Pages
             }
         }
 
-        public async Task OnGetAsync()
+        public void OnGet()
         {
             if (User.IsInRole("Supervisor") || User.IsInRole("Director"))
             {

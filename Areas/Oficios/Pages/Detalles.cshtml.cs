@@ -36,6 +36,8 @@ namespace GestionWeb.Areas.Oficios.Pages
         [BindProperty]
         public EstadoOficio MiEstadoOficio { get; set; }
 
+        public IList<Data.Archiveros> Archiveros { get; set; }
+
         public async Task<IActionResult> OnGetAsync(int? id)
         {
             if (id == null)

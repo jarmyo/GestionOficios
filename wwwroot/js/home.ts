@@ -18,7 +18,7 @@
     }
 }
 
-function notificar(titulo: string, mensaje: string) {
+function Notificar(titulo: string, mensaje: string) {
     var notify = new Notification(titulo, {
         body: mensaje,
         icon: "/favicon.ico"

@@ -14,24 +14,24 @@
         <button data-bs-toggle="modal" data-bs-target="#modalTurnar" class="btn btn-primary my-2">Turnar a alguien</button>
         @if (Model.MiEstadoOficio == EstadoOficio.PendienteRecibir)
         {
-            <button href="~/Oficios/Marcar?id=@Model.Oficios.Id&action=3" class="btn btn-success my-2">Aceptar turno</button>
+            <a href="/Oficios/Marcar?id=@Model.Oficios.Id&action=3" class="btn btn-success my-2">Aceptar turno</a>
         }
         @if (User.IsInRole("Supervisor"))
         {
-            <button onclick="Marcar(@Model.Oficios.Id,5)" class="btn btn-dark my-2">Confirmar como contestado</button>
+            <a href="/Oficios/Marcar?id=@Model.Oficios.Id&action=5" class="btn btn-dark my-2">Confirmar como contestado</a>
         }
         else
         {
-            <button onclick="Marcar(@Model.Oficios.Id,4)" class="btn btn-info my-2">Marcar como contestado</button>
+            <a href="/Oficios/Marcar?id=@Model.Oficios.Id&action=4" class="btn btn-info my-2">Marcar como contestado</a>
         }
         @if (User.IsInRole("Supervisor"))
         {
-            <button onclick="Marcar(@Model.Oficios.Id,7)" class="btn btn-warning my-2">Archivar</button>        
+            <a href="/Oficios/Marcar?id=@Model.Oficios.Id&action=7" class="btn btn-warning my-2">Archivar</a>
         }
         }
         @if (User.IsInRole("AdministradorGeneral"))
         {            
-            <button onclick="Marcar(@Model.Oficios.Id,9)" class="btn btn-danger my-2">Eliminar</button>
+            <a href="/Oficios/Marcar?id=@Model.Oficios.Id&action=9" class="btn btn-danger my-2">Eliminar</a>
         }
     </p>
     <hr />
@@ -181,4 +181,31 @@
         </div>
     </div>
 </div>
+<div class="modal" tabindex="-1" id="modalArchivar">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Seleccione el archivero/cajon</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+
+                @foreach (var archivero in Model.Archiveros)
+                {
+                    <div class="fw-bold">@archivero.Nombre</div>
+                    <div class="list-group">
+                        @foreach (var caja in archivero.Cajon)
+                        {
+                            <a onclick="archivarOficio(@caja.Id)" class="list-group-item list-group-item-action">@caja.Nombre</a>
+                        }
+                    </div>
+                }
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
 <script src="/js/oficios/detalles.js"></script>
+<script src="~/js/oficios/oficiospendientes.js"></script>

@@ -26,35 +26,75 @@ namespace GestionWeb.Controllers
             }
         }
 
-        public IActionResult Marcar(int id)
+        public async Task<ActionResult> Marcar(int id)
         {
-            var action = Convert.ToInt32(Request.Query["action"]);
+            var action = (EstadoOficio)Convert.ToByte(Request.Query["action"]);
+            var oficio = _context.Oficios.First(o => o.Id == id);
 
             switch (action)
             {
-                case 2:  //turnar
+                case EstadoOficio.PendienteRecibir:  //turnar
                     {
                         break;
                     }
-                case 3: //Aceptar en bandeja
+                case EstadoOficio.EnMiPoder: //Aceptar en bandeja
                     {
                         break;
                     }
-                case 4: //enviar contestado
+                case EstadoOficio.EnviadoParaConfirmar: //enviar contestado
                     {
+                        var estado = new OficiosEstados()
+                        {
+                            FechaHora = DateTime.Now,
+                            IdEstado = EstadoOficio.PendienteRecibir,
+                            IdOficio = oficio.Id,
+                            IdUsuario = SessionUser.IdUsuario
+
+                        };
+                        estado = _context.OficiosEstados.Add(estado).Entity;
+                        await _context.SaveChangesAsync();
+                        return Redirect("/Oficios/Detalles?id=" + id);
+                    }
+                case EstadoOficio.Contestado: //confirmar contestado
+                    {
+                        var estado = new OficiosEstados()
+                        {
+                            FechaHora = DateTime.Now,
+                            IdEstado = EstadoOficio.Contestado,
+                            IdOficio = oficio.Id,
+                            IdUsuario = SessionUser.IdUsuario
+
+                        };
+                        estado = _context.OficiosEstados.Add(estado).Entity;
+
+                        //Poner en pendiente de archivar.
+
+                        await _context.SaveChangesAsync();
+                        return Redirect("/Oficios/oficiospendientes");
+                    }
+                case EstadoOficio.Archivado: //archivar
+                    {
+                        //var estado = new OficiosEstados()
+                        //{
+                        //    FechaHora = DateTime.Now,
+                        //    IdEstado = EstadoOficio.Contestado,
+                        //    IdOficio = oficio.Id,
+                        //    IdUsuario = SessionUser.IdUsuario
+
+                        //};
+                        //estado = _context.OficiosEstados.Add(estado).Entity;
+
+                        ////Poner en pendiente de archivar.
+
+                        //await _context.SaveChangesAsync();
+                        //return Redirect("/Oficios/oficiospendientes");
                         break;
                     }
-                case 5: //confirmar contestado
+                case EstadoOficio.Eliminado: //eliminar
                     {
-                        break;
-                    }
-                case 7: //archivar
-                    {
-                        break;
-                    }
-                case 9: //eliminar
-                    {
-                        break;
+                        _context.Oficios.Remove(oficio);
+                        await _context.SaveChangesAsync();
+                        return Redirect("/Oficios");
                     }
             }
 
@@ -98,7 +138,7 @@ namespace GestionWeb.Controllers
         public async Task<ActionResult> CrearNuevoEmisor()
         {
             var nombre = Request.Query["nombre"].First();
-            var tipo = short.Parse( Request.Query["tipo"].First());
+            var tipo = short.Parse(Request.Query["tipo"].First());
 
             var em = _context.Emisores.Add(new Emisores() { Nombre = nombre, IdTipoEmisor = tipo }).Entity;
             try
@@ -114,7 +154,7 @@ namespace GestionWeb.Controllers
 
         public async Task<ActionResult> CrearNuevoTipoOficio()
         {
-            var nombre = Request.Query["nombre"].First();            
+            var nombre = Request.Query["nombre"].First();
             var em = _context.TipoOficio.Add(new TipoOficio() { Nombre = nombre }).Entity;
             try
             {
@@ -130,7 +170,7 @@ namespace GestionWeb.Controllers
         public async Task<ActionResult> ArchivarOficio(int id)
         {
             try
-            {                
+            {
                 var idCajon = Convert.ToInt16(Request.Query["caja"].First());
                 var archivo = new OficiosArchivado()
                 {
@@ -156,7 +196,7 @@ namespace GestionWeb.Controllers
             var user = new OficiosUsuarios
             {
                 IdOficio = OficiosId,
-                IdUsuario = IdUsuario 
+                IdUsuario = IdUsuario
             };
             user = _context.OficiosUsuarios.Add(user).Entity;
             var nom = _context.Usuarios.First(u => u.Id == user.IdUsuario).Nombre;
@@ -181,7 +221,7 @@ namespace GestionWeb.Controllers
                 });
                 await _context.SaveChangesAsync();
             }
-            
+
             return nom;
         }
 

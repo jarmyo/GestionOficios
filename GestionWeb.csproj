@@ -9,12 +9,6 @@
     <PlatformTarget>x64</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
-    <Content Remove="wwwroot\js\home.ts" />
-  </ItemGroup>
-  <ItemGroup>
-    <_ContentIncludedByDefault Remove="wwwroot\css\site.min.css" />
-  </ItemGroup>
-  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="5.0.5" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="5.0.4" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="5.0.4" />
@@ -39,8 +33,5 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Models\" />
-  </ItemGroup>
-  <ItemGroup>
-    <TypeScriptCompile Include="wwwroot\js\home.ts" />
   </ItemGroup>
 </Project>

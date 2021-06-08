@@ -1,33 +1,33 @@
-﻿function turnarOficio(oficio, user) {
+﻿function turnarOficio(idOficio: string, idUsuario: string) {
+
     var myModal = bootstrap.Modal.getInstance(document.getElementById('modalTurnar'))
     myModal.hide();
 
-    fetch('/Oficios/TurnarOficio?id=' + oficio + "&user=" + user).then(
+    fetch('/Oficios/TurnarOficio?id=' + idOficio + "&user=" + idUsuario).then(
         function (result) { return result.text(); }).then(
-            function (nombreUsuario) {
-                console.log(nombreUsuario);
+            function () {                
                 window.location.reload(true);
             }
         );
 }
 
-function AnexarNota(event, idestado) {
+function AnexarNota(event, idestado:string) {
     if (event.key == "Enter") {
-        var t = document.getElementById("TextoNotasDeEstado-" + idestado) as HTMLInputElement;
-        fetch('/Oficios/AgregarComentario?id=' + idestado + "&text='" + t.value + "'").then(
+        var textInput = document.getElementById("TextoNotasDeEstado-" + idestado) as HTMLInputElement;
+        fetch('/Oficios/AgregarComentario?id=' + idestado + "&text='" + textInput.value + "'").then(
             function (result) {
                 return result.text();
             }).then(
                 function (timeStamp) {
 
                     if (timeStamp === "error") {
-                        t.value = "";
+                        textInput.value = "";
                         console.log("error");
                     }
                     else {
                         var d = document.getElementById("NotasDeEstado-" + idestado);
-                        d.innerHTML += '<br/><strong>' + timeStamp + '</strong> ' + t.value;
-                        t.value = "";
+                        d.innerHTML += '<br/><strong>' + timeStamp + '</strong> ' + textInput.value;
+                        textInput.value = "";
                     }
                 }
             );
