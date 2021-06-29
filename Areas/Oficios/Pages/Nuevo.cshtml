@@ -40,7 +40,7 @@
                 <button type="button" data-bs-toggle="modal" data-bs-target="#agregartipo" class="btn btn-sm my-2 btn-warning">Agregar nuevo tipo</button>
                 <div class="form-group mb-2">
                     <label asp-for="Oficios.Asunto" class="form-label"></label>
-                    <input asp-for="Oficios.Asunto" class="form-control" />
+                    <input asp-for="Oficios.Asunto" class="form-control" maxlength="60" />
                     <span asp-validation-for="Oficios.Asunto" class="text-danger"></span>
                 </div>
 

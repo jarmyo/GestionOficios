@@ -47,7 +47,7 @@
     </div>
     <div class="col-auto">
         <div class="input-group">
-            <input type="text" class="form-control" placeholder="Buscar oficio" />
+            <input type="text" class="form-control" placeholder="Buscar oficio por asunto" id="TextoBuscar" onkeyup="myFunction()" />
             <button type="button" class="btn btn-primary">
                 Buscar
             </button>
@@ -57,7 +57,7 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col">
-            <table class="table table-sm">
+            <table class="table table-sm" id="ListaDeOficios">
                 <thead class="table-dark">
                     <tr>
                         <th scope="col">#</th>
@@ -92,3 +92,29 @@
         </div>
     </div>
 </div>
+@section Scripts
+{
+<script>
+function myFunction() {
+  // Declare variables
+  var input, filter, table, tr, td, i, txtValue;
+  input = document.getElementById("TextoBuscar");
+  filter = input.value.toUpperCase();
+  table = document.getElementById("ListaDeOficios");
+  tr = table.getElementsByTagName("tr");
+
+  // Loop through all table rows, and hide those who don't match the search query
+  for (i = 0; i < tr.length; i++) {
+    td = tr[i].getElementsByTagName("td")[4];    
+    if (td) {
+      txtValue = td.textContent || td.innerText;
+      if (txtValue.toUpperCase().indexOf(filter) > -1) {
+        tr[i].style.display = "";
+      } else {
+        tr[i].style.display = "none";
+      }
+    }
+  }
+}
+</script>
+}
