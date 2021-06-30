@@ -1,0 +1,121 @@
+﻿@page
+@model GestionWeb.Areas.Oficios.Pages.ListaModel
+@{
+    ViewData["Title"] = "Lista de Oficios";
+}
+
+<div class="row">
+    <div class="col">
+        <h1>@ViewData["Title"]</h1>
+    </div>  
+</div>
+
+<div class="row mb-2">
+    <hr />
+    <div class="col">
+        <div class="input-group">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                Todos los receptores
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                <li><a class="dropdown-item" href="#">Todos los receptores</a></li>
+                @foreach (var r in Model.Receptores)
+                {
+                    <li><a class="dropdown-item" href="#">@r.Nombre</a></li>
+                }
+            </ul>
+            <button class="btn btn-warning dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                Todos los tipos
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                <li><a class="dropdown-item" href="#">Todos los tipos</a></li>
+                @foreach (var t in Model.Tipos)
+                {
+                    <li><a class="dropdown-item" href="#">@t.Nombre</a></li>
+
+                }
+            </ul>
+            <button class="btn btn-info dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                todos los terminos
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                <li><a class="dropdown-item" href="#">todos los terminos</a></li>
+                <li><a class="dropdown-item" href="#">Con termino</a></li>
+                <li><a class="dropdown-item" href="#">Sin termino</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="col-auto">
+        <div class="input-group">
+            <input type="text" class="form-control" placeholder="Buscar oficio por asunto" id="TextoBuscar" onkeyup="myFunction()" />
+            <button type="button" class="btn btn-primary">
+                Buscar
+            </button>
+        </div>
+    </div>
+</div>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col">
+            <table class="table table-sm" id="ListaDeOficios">
+                <thead class="table-dark">
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Oficio</th>
+                        <th scope="col">Recibido</th>
+                        <th scope="col">Tipo</th>
+                        <th scope="col">Emite</th>
+                        <th scope="col">Asunto</th>
+                        <th scope="col">...</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var oficio in Model.Oficios)
+                    {
+                     
+                        <tr>
+                        <th scope="row">@oficio.Numero</th>
+                        <td>@oficio.Oficio</td>
+                        <td><a href="~/oficios/Fecha?id=@oficio.FechaRecepcion.Date.ToShortDateString()">@oficio.FechaRecepcion.ToShortDateString()</a></td>
+                        <td>
+                            <a href="~/oficios/Tipo?id=@oficio.IdTipo">@oficio.IdTipoNavigation.Nombre</a>
+                        </td>
+                        <td>                            
+                            <a href="~/oficios/Emisores?id=@oficio.IdEmisor">@oficio.IdEmisorNavigation.Nombre</a>
+                        </td>
+                        <td>@oficio.Asunto</td>
+                        <td><a href="~/oficios/detalles?id=@oficio.Id" class="btn btn-primary">Detalles</a></td>
+                    </tr>
+
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+@section Scripts
+{
+<script>
+function myFunction() {
+  // Declare variables
+  var input, filter, table, tr, td, i, txtValue;
+  input = document.getElementById("TextoBuscar");
+  filter = input.value.toUpperCase();
+  table = document.getElementById("ListaDeOficios");
+  tr = table.getElementsByTagName("tr");
+
+  // Loop through all table rows, and hide those who don't match the search query
+  for (i = 0; i < tr.length; i++) {
+    td = tr[i].getElementsByTagName("td")[4];    
+    if (td) {
+      txtValue = td.textContent || td.innerText;
+      if (txtValue.toUpperCase().indexOf(filter) > -1) {
+        tr[i].style.display = "";
+      } else {
+        tr[i].style.display = "none";
+      }
+    }
+  }
+}
+</script>
+}

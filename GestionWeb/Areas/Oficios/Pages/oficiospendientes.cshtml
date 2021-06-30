@@ -1,0 +1,116 @@
+﻿@page
+@model GestionWeb.Areas.Oficios.Pages.OficiosPendientesModel
+@{
+    ViewData["Title"] = "Lista de oficios pendientes de revisar o guardar.";
+}
+<div class="row">
+    <div class="col">
+        <h1>@ViewData["Title"]</h1>
+        <hr />
+    </div>
+</div>
+<div class="container-fluid">
+    <div class="row">
+        <h2>Marcados como contestados, por confirmar</h2>
+        <div class="col">
+            <table class="table table-sm">
+                <thead class="table-dark">
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Oficio</th>
+                        <th scope="col">Recibido</th>
+                        <th scope="col">Tipo</th>
+                        <th scope="col">Emite</th>
+                        <th scope="col">Asunto</th>
+                        <th scope="col" colspan="2">...</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var oficio in Model.OficiosSinConfirmacion)
+                    {
+                        <tr>
+                            <th scope="row">@oficio.Numero</th>
+                            <td>@oficio.Oficio</td>
+                            <td><a href="~/oficios/Fecha?id=@oficio.FechaRecepcion.Date.ToShortDateString()">@oficio.FechaRecepcion.ToShortDateString()</a></td>
+                            <td>
+                                <a href="~/oficios/Tipo?id=@oficio.IdTipo">@oficio.IdTipoNavigation.Nombre</a>
+                            </td>
+                            <td>
+                                <a href="~/oficios/Emisores?id=@oficio.IdEmisor">@oficio.IdEmisorNavigation.Nombre</a>
+                            </td>
+                            <td>@oficio.Asunto</td>
+                            <td><a href="~/oficios/confirmar?id=@oficio.Id" class="btn btn-success">Confirmar</a></td>
+                            <td><a href="~/oficios/devolver?id=@oficio.Id" class="btn btn-danger">Devolver</a></td>
+                        </tr>
+
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="row">
+        <h2>Archivados, sin especificar destino</h2>
+        <div class="col">
+            <table class="table table-sm">
+                <thead class="table-dark">
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Oficio</th>
+                        <th scope="col">Recibido</th>
+                        <th scope="col">Tipo</th>
+                        <th scope="col">Emite</th>
+                        <th scope="col">Asunto</th>
+                        <th scope="col">...</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var oficio in Model.OficiosSinArchivo)
+                    {
+                        <tr id="OficioRow-@oficio.Id">
+                            <th scope="row">@oficio.Numero</th>
+                            <td>@oficio.Oficio</td>
+                            <td><a href="~/oficios/Fecha?id=@oficio.FechaRecepcion.Date.ToShortDateString()">@oficio.FechaRecepcion.ToShortDateString()</a></td>
+                            <td>
+                                <a href="~/oficios/Tipo?id=@oficio.IdTipo">@oficio.IdTipoNavigation.Nombre</a>
+                            </td>
+                            <td>
+                                <a href="~/oficios/Emisores?id=@oficio.IdEmisor">@oficio.IdEmisorNavigation.Nombre</a>
+                            </td>
+                            <td>@oficio.Asunto</td>
+                            <td><button onclick="AbrirModalArchivero(@oficio.Id)" class="btn btn-primary">Asignar archivero</button></td>
+                        </tr>
+
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="modal" tabindex="-1" id="modalArchivar">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Seleccione el archivero/cajon</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+
+                @foreach (var archivero in Model.Archiveros)
+                {
+                    <div class="fw-bold">@archivero.Nombre</div>
+                    <div class="list-group">
+                        @foreach (var caja in archivero.Cajon)
+                        {
+                            <a onclick="archivarOficio(@caja.Id)" class="list-group-item list-group-item-action">@caja.Nombre</a>
+                        }
+                    </div>
+                }
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/js/oficios/oficiospendientes.js"></script>

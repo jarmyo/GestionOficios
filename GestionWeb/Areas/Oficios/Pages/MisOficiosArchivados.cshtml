@@ -1,0 +1,59 @@
+﻿@page
+@model GestionWeb.Areas.Oficios.Pages.MisOficiosArchivadosModel
+@{
+    ViewData["Title"] = "Mis oficios archivados";
+}
+<h1>@ViewData["Title"]</h1>
+<div class="container-fluid">
+    @if (User.IsInRole("AdministradorGeneral"))
+    {
+        <div class="row mb-3">
+            @foreach (var c in Model.Users)
+            {
+                <div class="col">
+                    <a href="~/Development/CambiaUsuarioArchivo/@c.Id" class="btn btn-primary">@c.Nombre</a>
+                </div>
+            }
+        </div>
+    }
+    <div class="row">
+        <div class="col">
+            <table class="table table-sm">
+                <thead class="table-dark">
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Oficio</th>
+                        <th scope="col">Recibido</th>
+                        <th scope="col">Tipo</th>
+                        <th scope="col">Emite</th>
+                        <th scope="col">Asunto</th>
+                        <th scope="col">...</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var oficio in Model.Oficios)
+                    {
+                        var tagx = "";
+                        @if (oficio.OficiosTermino != null)
+                        {
+                            tagx = "table-danger";
+                        }
+                    <tr class="@tagx">
+                        <th scope="row">@oficio.Numero</th>
+                        <td>@oficio.Oficio</td>
+                        <td><a class="text-decoration-none" href="~/oficios/Fecha?id=@oficio.FechaRecepcion.Date.ToShortDateString()">@oficio.FechaRecepcion.ToShortDateString()</a></td>
+                        <td>
+                            <a class="text-decoration-none" href="~/oficios/Tipo?id=@oficio.IdTipo">@oficio.IdTipoNavigation.Nombre</a>
+                        </td>
+                        <td>
+                            <a class="text-decoration-none" href="~/oficios/Emisores?id=@oficio.IdEmisor">@oficio.IdEmisorNavigation.Nombre</a>
+                        </td>
+                        <td>@oficio.Asunto</td>
+                        <td><a href="~/oficios/detalles?id=@oficio.Id" class="btn btn-primary">Detalles</a></td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
