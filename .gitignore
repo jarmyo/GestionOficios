@@ -364,3 +364,5 @@ FodyWeavers.xsd
 *.js
 *.js.map
 GestionWeb/bower_components/*
+Instalador/obj/*.*
+.vs/*.*
