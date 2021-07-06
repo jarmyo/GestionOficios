@@ -72,7 +72,12 @@ namespace GestionWeb.Areas.Oficios.Pages
 
             Oficios.IdDepartamento = SessionUser.IdDepartamento;
             Oficios.FechaRecepcion = DateTime.Now;
+            
+            Oficios.UltimoEstado = EstadoOficio.Capturado;
+            Oficios.IdUsuario = Oficios.IdReceptor;
+
             Oficios = _context.Oficios.Add(Oficios).Entity;
+
             await _context.SaveChangesAsync();
 
             if (OficiosTerminoFecha != null)
@@ -93,8 +98,8 @@ namespace GestionWeb.Areas.Oficios.Pages
                 IdEstado = EstadoOficio.Capturado,
                 IdOficio = Oficios.Id,
                 IdUsuario = Oficios.IdReceptor
-
             });
+            
 
             if (r != "0")
             {
@@ -104,12 +109,19 @@ namespace GestionWeb.Areas.Oficios.Pages
 
                 if (value[0] == "u")
                 {
-                    var x = await Controllers.Oficios.turnarOficio(Oficios.Id, Convert.ToInt32(value[1]), Oficios.IdReceptor);
+                    var idu = Convert.ToInt32(value[1]);
+                    var x = await Controllers.Oficios.turnarOficio(Oficios.Id, idu, Oficios.IdReceptor);
+                    
+                    Oficios.UltimoEstado = EstadoOficio.PendienteRecibir;
+                    Oficios.IdUsuario = idu;
+                    await _context.SaveChangesAsync();
+
                     if (x.ToLower().Contains("archivo"))
                     {
                         Oficios.Archivado = true;
                         await _context.SaveChangesAsync();
                     }
+                    
                 }
                 else if (value[0] == "d")
                 {

@@ -4,14 +4,17 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - GestionWeb</title>
-    <link href="~/css/bootstrap.min.css" rel="stylesheet" />
+
+    <link rel="stylesheet" href="~/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="manifest" href="/manifest.webmanifest">
+    <link rel="icon" href="images/icon-48x48.png">
     @await RenderSectionAsync("Styles", required: false)
 </head>
 <body>
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark border-bottom box-shadow mb-3">
-            <div class="container-fluid">                
+            <div class="container-fluid">
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -26,6 +29,9 @@
                 </div>
             </div>
         </nav>
+     <input id="endpoint" name="endpoint" type="hidden" />
+    <input id="p256dh" name="p256dh" type="hidden" />
+    <input id="auth" name="auth" type="hidden" />
     </header>
     <div class="container-fluid">
         <main role="main" class="pb-3">
@@ -39,7 +45,7 @@
         </div>
     </footer>
     <script src="~/js/bootstrap.bundle.min.js"></script>
-
+    <script src="~/js/home.js"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

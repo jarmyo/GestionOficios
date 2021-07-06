@@ -103,11 +103,15 @@ namespace GestionWeb.Data
 
             modelBuilder.Entity<Oficios>(entity =>
             {
+                entity.HasComment("");
+
                 entity.Property(e => e.Asunto)
                     .HasMaxLength(60)
                     .IsUnicode(false);
 
                 entity.Property(e => e.FechaRecepcion).HasColumnType("smalldatetime");
+
+                entity.Property(e => e.IdUsuario).HasComment("Quien tiene el oficio");
 
                 entity.Property(e => e.Numero)
                     .HasMaxLength(6)
@@ -117,6 +121,10 @@ namespace GestionWeb.Data
                     .IsRequired()
                     .HasMaxLength(40)
                     .IsUnicode(false);
+
+                entity.Property(e => e.UltimoEstado)
+                    .HasDefaultValueSql("((1))")
+                    .HasComment("Ultimo Estado");
 
                 entity.HasOne(d => d.IdDepartamentoNavigation)
                     .WithMany(p => p.Oficios)
@@ -129,7 +137,7 @@ namespace GestionWeb.Data
                     .HasConstraintName("FK_Oficios_Emisores");
 
                 entity.HasOne(d => d.IdReceptorNavigation)
-                    .WithMany(p => p.Oficios)
+                    .WithMany(p => p.OficiosIdReceptorNavigation)
                     .HasForeignKey(d => d.IdReceptor)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Oficios_Receptores");
@@ -138,6 +146,12 @@ namespace GestionWeb.Data
                     .WithMany(p => p.Oficios)
                     .HasForeignKey(d => d.IdTipo)
                     .HasConstraintName("FK_Oficios_TipoOficio");
+
+                entity.HasOne(d => d.IdUsuarioNavigation)
+                    .WithMany(p => p.OficiosIdUsuarioNavigation)
+                    .HasForeignKey(d => d.IdUsuario)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Oficios_Usuarios");
             });
 
             modelBuilder.Entity<OficiosArchivado>(entity =>

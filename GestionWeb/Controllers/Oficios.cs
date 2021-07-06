@@ -201,6 +201,7 @@ namespace GestionWeb.Controllers
             };
             user = _context.OficiosUsuarios.Add(user).Entity;
             var nom = _context.Usuarios.First(u => u.Id == user.IdUsuario).Nombre;
+          
             var estado = new OficiosEstados()
             {
                 FechaHora = DateTime.Now,
@@ -230,6 +231,22 @@ namespace GestionWeb.Controllers
         {
             // este proceso solo debé hacerse 
             return "";
+        }
+
+        public IActionResult PUSHSuscribe(string client, string endpoint, string p256dh, string auth)
+        {
+            //if (client == null)
+            //{
+            //    return BadRequest("No Client Name parsed.");
+            //}
+            //if (PersistentStorage.GetClientNames().Contains(client))
+            //{
+            //    return BadRequest("Client Name already used.");
+            //}
+            //var subscription = new PushSubscription(endpoint, p256dh, auth);
+            //PersistentStorage.SaveSubscription(client, subscription);
+            //return View("Notify", PersistentStorage.GetClientNames());
+            return NotFound();
         }
     }
 }

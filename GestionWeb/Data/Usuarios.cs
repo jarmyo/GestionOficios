@@ -9,8 +9,9 @@ namespace GestionWeb.Data
     {
         public Usuarios()
         {
-            Oficios = new HashSet<Oficios>();
             OficiosEstados = new HashSet<OficiosEstados>();
+            OficiosIdReceptorNavigation = new HashSet<Oficios>();
+            OficiosIdUsuarioNavigation = new HashSet<Oficios>();
             OficiosUsuarios = new HashSet<OficiosUsuarios>();
         }
 
@@ -22,8 +23,9 @@ namespace GestionWeb.Data
         public string Email { get; set; }
 
         public virtual Departamentos IdDepartamentoNavigation { get; set; }
-        public virtual ICollection<Oficios> Oficios { get; set; }
         public virtual ICollection<OficiosEstados> OficiosEstados { get; set; }
+        public virtual ICollection<Oficios> OficiosIdReceptorNavigation { get; set; }
+        public virtual ICollection<Oficios> OficiosIdUsuarioNavigation { get; set; }
         public virtual ICollection<OficiosUsuarios> OficiosUsuarios { get; set; }
     }
 }

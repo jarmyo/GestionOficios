@@ -3,6 +3,11 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
+using System.Collections.Generic;
+using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using System.Diagnostics;
 
 namespace GestionWeb.Areas.Oficios.Pages
 {
@@ -10,6 +15,8 @@ namespace GestionWeb.Areas.Oficios.Pages
     public class IndexModel : PageModel
     {
         public string NumeroOficiosPendientes { get; set; } = string.Empty;
+        [BindProperty]
+        public IList<Data.Usuarios> Usuarios { get; set; }
         private readonly Data.GestionOficiosContext _context;
         private readonly UserManager<IdentityUser> _userManager;
         private readonly ILogger<IndexModel> _logger;
@@ -28,10 +35,27 @@ namespace GestionWeb.Areas.Oficios.Pages
             }
         }
 
-        public void OnGet()
+        public async Task<IActionResult> OnGetAsync()
         {
+            //foreach (var oficio in _context.Oficios)
+            //{
+            //    if (oficio.OficiosEstados.Any())
+            //    {
+            //        Debug.Write(".");
+            //        var ultimoEstado = oficio.OficiosEstados.OrderByDescending(o => o.FechaHora).First();
+            //        oficio.UltimoEstado = ultimoEstado.IdEstado;
+            //        oficio.IdUsuario = ultimoEstado.IdUsuario;
+            //    }
+            //    else
+            //    {
+            //        Debug.WriteLine("-");
+            //    }
+            //}
+            //await _context.SaveChangesAsync();
+
             if (User.IsInRole("Supervisor") || User.IsInRole("Director"))
             {
+                Usuarios = await _context.Usuarios.Where(u => u.IdDepartamento == SessionUser.IdDepartamento && u.Oculto == false).ToListAsync();
                 int count = 0;
                 foreach (var _ in from oficio in _context.Oficios
                                   where oficio.Archivado
@@ -51,6 +75,8 @@ namespace GestionWeb.Areas.Oficios.Pages
                     NumeroOficiosPendientes = count.ToString();
                 }
             }
+
+            return Page();
         }
     }
 }
