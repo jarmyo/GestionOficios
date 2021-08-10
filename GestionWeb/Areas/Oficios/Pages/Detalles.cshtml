@@ -15,7 +15,7 @@
         {
             @if (User.IsInRole("Supervisor"))
             {
-                <a href="/Oficios/Editar?id=@Model.Oficios.Id" class="btn btn-success my-2">Editar</a>
+                <a asp-page="./Edit" asp-route-id="@Model.Oficios.Id" class="btn btn-success my-2">Editar</a>                
             }
             @if (Model.MiEstadoOficio < EstadoOficio.EnviadoParaConfirmar)
             {
