@@ -93,7 +93,9 @@ namespace GestionWeb.Controllers
                     }
                 case EstadoOficio.Eliminado: //eliminar
                     {
+                        _context.OficiosEstados.RemoveRange(oficio.OficiosEstados);                        
                         _context.Oficios.Remove(oficio);
+
                         await _context.SaveChangesAsync();
                         return Redirect("/Oficios");
                     }

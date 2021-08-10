@@ -121,7 +121,6 @@ namespace GestionWeb.Areas.Oficios.Pages
                         Oficios.Archivado = true;
                         await _context.SaveChangesAsync();
                     }
-                    
                 }
                 else if (value[0] == "d")
                 {
