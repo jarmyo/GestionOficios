@@ -14,8 +14,8 @@
         @if (!Model.Oficios.Archivado)
         {
             @if (User.IsInRole("Supervisor"))
-            {                
-                   <a href="/Oficios/Editar?id=@Model.Oficios.Id" class="btn btn-success my-2">Editar</a>
+            {
+                <a href="/Oficios/Editar?id=@Model.Oficios.Id" class="btn btn-success my-2">Editar</a>
             }
             @if (Model.MiEstadoOficio < EstadoOficio.EnviadoParaConfirmar)
             {
@@ -80,6 +80,10 @@
                 {
                     <li class="list-group-item">🙈 Contestado, Enviado para confirmación</li>
                 }
+                else if (Model.MiEstadoOficio == EstadoOficio.NoEsMio)
+                {
+                    <li class="list-group-item">🙈 Pendiente de Recibir</li>
+                }
                 else
                 {
                     <li class="list-group-item"> @Model.MiEstadoOficio</li>
@@ -87,7 +91,7 @@
             </ul>
         </div>
         <hr>
-        <div class="card ">
+        <div class="card mb-2">
             <div class="card-header">
                 Datos Generales
             </div>
@@ -96,26 +100,26 @@
                     <tbody>
                         <tr>
                             <td>Asunto</td>
-                            <td> @Html.DisplayFor(model => model.Oficios.Asunto)</td>
+                            <td> @Model.Oficios.Asunto</td>
                         </tr>
                         <tr>
                             <td>Departamento</td>
-                            <td> @Html.DisplayFor(model => model.Oficios.IdDepartamentoNavigation.Nombre)</td>
+                            <td> @Model.Oficios.IdDepartamentoNavigation.Nombre</td>
                         </tr>
                         <tr>
                             <td>Quien Emite</td>
-                            <td>@Html.DisplayFor(model => model.Oficios.IdEmisorNavigation.Nombre)</td>
+                            <td>@Model.Oficios.IdEmisorNavigation.Nombre</td>
                         </tr>
-                        <tr>
+                        <tr class="table-info">
                             <td>Recibió</td>
                             <td>
-                                @Html.DisplayFor(model => model.Oficios.IdReceptorNavigation.Nombre)
+                                @Model.Oficios.IdReceptorNavigation.Nombre
                                 @Model.Oficios.FechaRecepcion.ToString("g")
                             </td>
                         </tr>
                         <tr>
                             <td>Tipo</td>
-                            <td>@Html.DisplayFor(model => model.Oficios.IdTipoNavigation.Nombre)</td>
+                            <td>@Model.Oficios.IdTipoNavigation.Nombre</td>
                         </tr>
                     </tbody>
                 </table>
@@ -123,50 +127,57 @@
         </div>
     </div>
     <div class="col-6">
-          @if (Model.Oficios.OficiosUsuarios.Any())
-            {
-                <div class="card text-dark bg-info" style="width: 40rem;">
-                    <div class="card-header">
-                        Usuarios que tienen turnado este oficio
-                    </div>
-                    <ul class="list-group list-group-flush" id="ListaOficiosUsuarios">
-                        @foreach (var estado in Model.Oficios.OficiosUsuarios)
-                        {
-                            <li class="list-group-item">🙋 @estado.IdUsuarioNavigation.Nombre</li>
-                        }
-                    </ul>
+        @if (Model.Oficios.OficiosUsuarios.Any())
+        {
+            <div class="card text-dark bg-info" style="width: 40rem;">
+                <div class="card-header">
+                    Usuarios que tienen turnado este oficio
                 </div>
-                <hr />
-            }
-        <div class="row">
-          
-            <h4>Seguimiento</h4>
+                <ul class="list-group list-group-flush" id="ListaOficiosUsuarios">
+                    @foreach (var estado in Model.Oficios.OficiosUsuarios)
+                    {
+                        <li class="list-group-item">🙋 @estado.IdUsuarioNavigation.Nombre</li>
+                    }
+                </ul>
+            </div>
+            <hr />
+        }
+
+        <div class="card text-dark bg-info">
+            <div class="card-header">
+                Historial / Seguimiento
+            </div>
             <div class="list-group list-group-flush border-bottom scrollarea">
                 @foreach (var estado in Model.Oficios.OficiosEstados.OrderBy(o => o.Id))
                 {
-                    <a href="#" class="list-group-item list-group-item-action py-3 lh-tight">
-                        <div class="d-flex w-100 align-items-center justify-content-between">
-                            <strong class="mb-1">@estado.IdEstadoNavigation.Nombre</strong> @estado.IdUsuarioNavigation.Nombre
-                            <small class="text-muted">@estado.FechaHora.ToString("g")</small>
-                        </div>
-                        <div class="row">
-                            <div class="col-12 mb-1 small" id="NotasDeEstado-@estado.Id">
-                                @foreach (var nota in estado.OficiosEstadosNotas)
-                                {
-                                    <br />
-                                    <strong>@nota.FechaHora.ToString("g")</strong>@nota.Nota
-                                }
+                    if (estado.IdEstado != EstadoOficio.Capturado)
+                    {
+                        <div class="list-group-item list-group-item-action py-2 lh-tight">
+                            <div class="d-flex w-100 justify-content-between">
+                                <strong class="mb-1">@estado.IdEstadoNavigation.Nombre</strong>
+                                <small class="text-muted">@estado.FechaHora.ToString("g")</small>
                             </div>
-                        </div>
-                        @if (!Model.Oficios.Archivado)
-                        {
+                            <div class="d-flex w-100 justify-content-between">
+                                <i>@estado.IdUsuarioNavigation.Nombre</i>
+                            </div>
                             <div class="row">
-                                <div class="col">
-                                    <input class="form-control form-control-sm" placeholder="Agregar nota" id="TextoNotasDeEstado-@estado.Id" onkeyup="AnexarNota(event, @estado.Id);" />
+                                <div class="col" id="NotasDeEstado-@estado.Id">
+                                    @foreach (var nota in estado.OficiosEstadosNotas)
+                                    {
+                                        <a href="#" class="list-group-item"><strong>@nota.FechaHora.ToString("g")</strong> @nota.Nota</a>
+                                    }
                                 </div>
                             </div>
-                        }
-                    </a>
+                            @if (!Model.Oficios.Archivado)
+                            {
+                                <div class="row">
+                                    <div class="col">
+                                        <input class="form-control form-control-sm" placeholder="Agregar nota" id="TextoNotasDeEstado-@estado.Id" onkeyup="AnexarNota(event, @estado.Id);" />
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    }
                 }
             </div>
         </div>

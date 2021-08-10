@@ -51,6 +51,7 @@
                     <label class="form-label">Fecha de termino</label>
                     <input asp-for="OficiosTerminoFecha" class="form-control" />
                     <span asp-validation-for="OficiosTerminoFecha" class="text-danger"></span>
+                    <button type="button" data-bs-toggle="modal" data-bs-target="#calcularfecha" class="btn btn-sm my-2 btn-warning">Calcular Fecha</button>
                 </div>
                 <label class="form-label">Turnar a...</label>
                 <div class="col">
@@ -82,7 +83,7 @@
         </div>
     </form>
 </div>
-<div class="modal fade" id="agregaremisor" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal" id="agregaremisor" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -106,7 +107,7 @@
         </div>
     </div>
 </div>
-<div class="modal fade" id="agregartipo" tabindex="-1" aria-labelledby="exampleModalLabel2" aria-hidden="true">
+<div class="modal" id="agregartipo" tabindex="-1" aria-labelledby="exampleModalLabel2" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -123,4 +124,31 @@
         </div>
     </div>
 </div>
+<div class="modal" id="calcularfecha" tabindex="-1" aria-labelledby="calculafechaLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Calcular Fecha</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="radioDeDia" id="radioNatural">
+                    <label class="form-check-label" for="radioNatural">Dias Naturales</label>
+                    <input class="form-control" max="365" min="1" type="number" id="calculaNaturales" value="">
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="radioDeDia" id="radioHabil" checked>
+                    <label class="form-check-label" for="radioHabil">Dias Habiles</label>
+                    <input class="form-control" max="365" min="1" type="number" id="calculaHabiles" value="">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" onclick="CalcularDias();" class="btn btn-primary">Calcular</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script src="/js/oficios/nuevo.js"></script>
