@@ -9,16 +9,15 @@ using GestionWeb.Data;
 
 namespace GestionWeb.Areas_Oficios_Pages_fold
 {
-    public class DeleteModel : PageModel
+    public class DetailsModel : PageModel
     {
         private readonly GestionWeb.Data.GestionOficiosContext _context;
 
-        public DeleteModel(GestionWeb.Data.GestionOficiosContext context)
+        public DetailsModel(GestionWeb.Data.GestionOficiosContext context)
         {
             _context = context;
         }
 
-        [BindProperty]
         public Oficios Oficios { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
@@ -40,24 +39,6 @@ namespace GestionWeb.Areas_Oficios_Pages_fold
                 return NotFound();
             }
             return Page();
-        }
-
-        public async Task<IActionResult> OnPostAsync(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            Oficios = await _context.Oficios.FindAsync(id);
-
-            if (Oficios != null)
-            {
-                _context.Oficios.Remove(Oficios);
-                await _context.SaveChangesAsync();
-            }
-
-            return RedirectToPage("./Index");
         }
     }
 }

@@ -1,18 +1,12 @@
-﻿@*@page
-@model GestionWeb.Areas.Oficios.Pages.fold.IndexModel
+@page
+@model GestionWeb.Areas_Oficios_Pages_fold.IndexModel
 
 @{
-    Layout = null;
+    ViewData["Title"] = "Index";
 }
 
-<!DOCTYPE html>
+<h1>Index</h1>
 
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Index</title>
-</head>
-<body>
 <p>
     <a asp-page="Create">Create New</a>
 </p>
@@ -26,13 +20,16 @@
                 @Html.DisplayNameFor(model => model.Oficios[0].Oficio)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Oficios[0].FechaTermino)
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.Oficios[0].Asunto)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Oficios[0].Archivado)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Oficios[0].FechaRecepcion)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Oficios[0].UltimoEstado)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Oficios[0].IdDepartamentoNavigation)
@@ -45,6 +42,9 @@
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Oficios[0].IdTipoNavigation)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Oficios[0].IdUsuarioNavigation)
             </th>
             <th></th>
         </tr>
@@ -59,13 +59,16 @@
                 @Html.DisplayFor(modelItem => item.Oficio)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.FechaTermino)
-            </td>
-            <td>
                 @Html.DisplayFor(modelItem => item.Asunto)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Archivado)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FechaRecepcion)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UltimoEstado)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.IdDepartamentoNavigation.Nombre)
@@ -74,10 +77,13 @@
                 @Html.DisplayFor(modelItem => item.IdEmisorNavigation.Nombre)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.IdReceptorNavigation.Nombre)
+                @Html.DisplayFor(modelItem => item.IdReceptorNavigation.AspNetId)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.IdTipoNavigation.Nombre)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdUsuarioNavigation.AspNetId)
             </td>
             <td>
                 <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
@@ -88,5 +94,3 @@
 }
     </tbody>
 </table>
-</body>
-</html>*@

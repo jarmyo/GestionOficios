@@ -1,18 +1,11 @@
-﻿@*@page
-@model GestionWeb.Areas.Oficios.Pages.fold.CreateModel
+@page
+@model GestionWeb.Areas_Oficios_Pages_fold.CreateModel
 
 @{
-    Layout = null;
+    ViewData["Title"] = "Create";
 }
 
-<!DOCTYPE html>
-
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Create</title>
-</head>
-<body>
+<h1>Create</h1>
 
 <h4>Oficios</h4>
 <hr />
@@ -31,10 +24,6 @@
                 <span asp-validation-for="Oficios.Oficio" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Oficios.IdReceptor" class="control-label"></label>
-                <select asp-for="Oficios.IdReceptor" class ="form-control" asp-items="ViewBag.IdReceptor"></select>
-            </div>
-            <div class="form-group">
                 <label asp-for="Oficios.IdEmisor" class="control-label"></label>
                 <select asp-for="Oficios.IdEmisor" class ="form-control" asp-items="ViewBag.IdEmisor"></select>
             </div>
@@ -47,11 +36,6 @@
                 <select asp-for="Oficios.IdTipo" class ="form-control" asp-items="ViewBag.IdTipo"></select>
             </div>
             <div class="form-group">
-                <label asp-for="Oficios.FechaTermino" class="control-label"></label>
-                <input asp-for="Oficios.FechaTermino" class="form-control" />
-                <span asp-validation-for="Oficios.FechaTermino" class="text-danger"></span>
-            </div>
-            <div class="form-group">
                 <label asp-for="Oficios.Asunto" class="control-label"></label>
                 <input asp-for="Oficios.Asunto" class="form-control" />
                 <span asp-validation-for="Oficios.Asunto" class="text-danger"></span>
@@ -60,6 +44,19 @@
                 <label class="form-check-label">
                     <input class="form-check-input" asp-for="Oficios.Archivado" /> @Html.DisplayNameFor(model => model.Oficios.Archivado)
                 </label>
+            </div>
+            <div class="form-group">
+                <label asp-for="Oficios.IdReceptor" class="control-label"></label>
+                <select asp-for="Oficios.IdReceptor" class ="form-control" asp-items="ViewBag.IdReceptor"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="Oficios.FechaRecepcion" class="control-label"></label>
+                <input asp-for="Oficios.FechaRecepcion" class="form-control" />
+                <span asp-validation-for="Oficios.FechaRecepcion" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Oficios.IdUsuario" class="control-label"></label>
+                <select asp-for="Oficios.IdUsuario" class ="form-control" asp-items="ViewBag.IdUsuario"></select>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
@@ -72,8 +69,3 @@
     <a asp-page="Index">Back to List</a>
 </div>
 
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
-</body>
-</html>*@

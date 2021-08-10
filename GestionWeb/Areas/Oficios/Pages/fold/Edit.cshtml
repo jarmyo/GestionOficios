@@ -1,20 +1,11 @@
-﻿@*@page
-@model GestionWeb.Areas.Oficios.Pages.fold.EditModel
+@page
+@model GestionWeb.Areas_Oficios_Pages_fold.EditModel
 
 @{
-    Layout = null;
+    ViewData["Title"] = "Editar Oficio";
 }
 
-<!DOCTYPE html>
-
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Edit</title>
-</head>
-<body>
-
-<h4>Oficios</h4>
+<h1>Editar Oficio</h1>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -32,12 +23,7 @@
                 <span asp-validation-for="Oficios.Oficio" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Oficios.IdReceptor" class="control-label"></label>
-                <select asp-for="Oficios.IdReceptor" class="form-control" asp-items="ViewBag.IdReceptor"></select>
-                <span asp-validation-for="Oficios.IdReceptor" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Oficios.IdEmisor" class="control-label"></label>
+                <label class="control-label">Emisor</label>
                 <select asp-for="Oficios.IdEmisor" class="form-control" asp-items="ViewBag.IdEmisor"></select>
                 <span asp-validation-for="Oficios.IdEmisor" class="text-danger"></span>
             </div>
@@ -52,11 +38,6 @@
                 <span asp-validation-for="Oficios.IdTipo" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Oficios.FechaTermino" class="control-label"></label>
-                <input asp-for="Oficios.FechaTermino" class="form-control" />
-                <span asp-validation-for="Oficios.FechaTermino" class="text-danger"></span>
-            </div>
-            <div class="form-group">
                 <label asp-for="Oficios.Asunto" class="control-label"></label>
                 <input asp-for="Oficios.Asunto" class="form-control" />
                 <span asp-validation-for="Oficios.Asunto" class="text-danger"></span>
@@ -65,6 +46,26 @@
                 <label class="form-check-label">
                     <input class="form-check-input" asp-for="Oficios.Archivado" /> @Html.DisplayNameFor(model => model.Oficios.Archivado)
                 </label>
+            </div>
+            <div class="form-group">
+                <label asp-for="Oficios.IdReceptor" class="control-label"></label>
+                <select asp-for="Oficios.IdReceptor" class="form-control" asp-items="ViewBag.IdReceptor"></select>
+                <span asp-validation-for="Oficios.IdReceptor" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Oficios.FechaRecepcion" class="control-label"></label>
+                <input asp-for="Oficios.FechaRecepcion" class="form-control" />
+                <span asp-validation-for="Oficios.FechaRecepcion" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Oficios.UltimoEstado" class="control-label"></label>
+                <select asp-for="Oficios.UltimoEstado" class="form-control"></select>
+                <span asp-validation-for="Oficios.UltimoEstado" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Oficios.IdUsuario" class="control-label"></label>
+                <select asp-for="Oficios.IdUsuario" class="form-control" asp-items="ViewBag.IdUsuario"></select>
+                <span asp-validation-for="Oficios.IdUsuario" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
@@ -77,8 +78,3 @@
     <a asp-page="./Index">Back to List</a>
 </div>
 
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
-</body>
-</html>*@
