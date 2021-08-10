@@ -1,4 +1,4 @@
-# GestionOficios
+# Gestion Oficios
 
 Sistema para gestión de oficios para dependencias de Gobierno, permite controlar el flujo de oficios entre dependencias y funcionarios y tener mayor certeza de como va el proceso, tener metricas de desempeño y agilizar un poco la burocracia.
 
