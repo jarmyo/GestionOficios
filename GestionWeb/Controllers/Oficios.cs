@@ -114,10 +114,12 @@ namespace GestionWeb.Controllers
             try
             {
                 var r = Request.Query["text"];
-                var nota = new OficiosEstadosNotas();
-                nota.FechaHora = DateTime.Now;
-                nota.Nota = r;
-                nota.IdEstadoOficio = id;
+                var nota = new OficiosEstadosNotas
+                {
+                    FechaHora = DateTime.Now,
+                    Nota = r,
+                    IdEstadoOficio = id
+                };
                 _context.OficiosEstadosNotas.Add(nota);
                 _context.SaveChanges();
                 return nota.FechaHora.ToString();
@@ -134,7 +136,7 @@ namespace GestionWeb.Controllers
             {
                 var user = Request.Query["user"].First();
                 var u = Convert.ToInt32(user);
-                var x = await turnarOficio(id, u, SessionUser.IdUsuario, "");
+                var x = await TurnarOficio(id, u, SessionUser.IdUsuario, "");
                 return Ok(x);
             }
             catch
@@ -197,7 +199,7 @@ namespace GestionWeb.Controllers
             }
         }
 
-        public static async Task<string> turnarOficio(int OficiosId, int IdUsuario, int OficiosIdReceptor, string text = "desde recepción ")
+        public static async Task<string> TurnarOficio(int OficiosId, int IdUsuario, int OficiosIdReceptor, string text = "desde recepción ")
         {
             var _context = new GestionOficiosContext();
 

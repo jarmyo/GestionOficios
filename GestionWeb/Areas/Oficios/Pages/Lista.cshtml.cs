@@ -47,9 +47,11 @@ namespace GestionWeb.Areas.Oficios.Pages
                 }
                 else
                 {
-                    var r = new Data.Emisores();
-                    r.IdTipoEmisor = 10;
-                    r.Nombre = nom.ToUpper().Trim();
+                    var r = new Data.Emisores
+                    {
+                        IdTipoEmisor = 10,
+                        Nombre = nom.ToUpper().Trim()
+                    };
                     r = _context.Emisores.Add(r).Entity;
                     _context.SaveChanges();
                     return r.Id;
@@ -65,8 +67,10 @@ namespace GestionWeb.Areas.Oficios.Pages
                 }
                 else
                 {
-                    var r = new Data.TipoOficio();
-                    r.Nombre = nom.ToUpper().Trim();
+                    var r = new Data.TipoOficio
+                    {
+                        Nombre = nom.ToUpper().Trim()
+                    };
                     r = _context.TipoOficio.Add(r).Entity;
                     _context.SaveChanges();
                     return r.Id;

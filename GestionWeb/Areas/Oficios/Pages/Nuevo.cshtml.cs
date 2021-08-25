@@ -78,9 +78,11 @@ namespace GestionWeb.Areas.Oficios.Pages
 
             if (OficiosTerminoFecha != null)
             {
-                var ot = new OficiosTermino();
-                ot.Fecha = OficiosTerminoFecha.Value;
-                ot.Id = Oficios.Id;
+                var ot = new OficiosTermino
+                {
+                    Fecha = OficiosTerminoFecha.Value,
+                    Id = Oficios.Id
+                };
 
                 _context.OficiosTermino.Add(ot);
                 await _context.SaveChangesAsync();
@@ -106,7 +108,7 @@ namespace GestionWeb.Areas.Oficios.Pages
                 if (value[0] == "u")
                 {
                     var idu = Convert.ToInt32(value[1]);
-                    var x = await Controllers.Oficios.turnarOficio(Oficios.Id, idu, Oficios.IdReceptor);
+                    var x = await Controllers.Oficios.TurnarOficio(Oficios.Id, idu, Oficios.IdReceptor);
                     
                     Oficios.UltimoEstado = EstadoOficio.PendienteRecibir;
                     Oficios.IdUsuario = idu;

@@ -3,9 +3,9 @@
     public static class Core
     {
 
-        internal static Dictionary<string, SessionData> SessionesActivas = new Dictionary<string, SessionData>();
+        internal static Dictionary<string, SessionData> SessionesActivas = new();
 
-        public static string ConnectionString;
+        public static string ConnectionString { get; set; }
         public static bool SetSessionData(string mail)
         {
 

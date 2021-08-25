@@ -13,14 +13,12 @@ namespace GestionWeb.Areas.Oficios.Pages
         [BindProperty]
         public IList<Data.Usuarios> Usuarios { get; set; }
         private readonly Data.GestionOficiosContext _context;
-        private readonly UserManager<IdentityUser> _userManager;
-        private readonly ILogger<IndexModel> _logger;
+        private readonly UserManager<IdentityUser> _userManager;        
 
-        public IndexModel(ILogger<IndexModel> logger, UserManager<IdentityUser> userManager, Data.GestionOficiosContext context)
+        public IndexModel(UserManager<IdentityUser> userManager, Data.GestionOficiosContext context)
         {
             _userManager = userManager;
-            _context = context;
-            _logger = logger;
+            _context = context;            
         }
         SessionData SessionUser
         {

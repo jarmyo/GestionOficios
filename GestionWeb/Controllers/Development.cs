@@ -5,13 +5,11 @@ namespace GestionWeb
 {
 
     public class Development : Controller
-    {
-        private readonly Data.GestionOficiosContext _context;
+    {        
         private readonly UserManager<IdentityUser> _userManager;
 
-        public Development(UserManager<IdentityUser> userManager, Data.GestionOficiosContext context)
-        {
-            _context = context;
+        public Development(UserManager<IdentityUser> userManager)
+        {            
             _userManager = userManager;
         }
         SessionData SessionUser
