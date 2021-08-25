@@ -170,7 +170,7 @@ namespace GestionWeb.Data
 
             modelBuilder.Entity<OficiosDocumentos>(entity =>
             {
-                entity.Property(e => e.filename)
+                entity.Property(e => e.Filename)
                     .IsRequired()
                     .HasMaxLength(150)
                     .IsUnicode(false);

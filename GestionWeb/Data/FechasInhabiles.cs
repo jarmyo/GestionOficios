@@ -6,7 +6,7 @@ namespace GestionWeb.Data
     {
         public int Id { get; set; }
         public string Descripcion { get; set; }
-        public byte dia { get; set; }
-        public byte mes { get; set; }
+        public byte Dia { get; set; }
+        public byte Mes { get; set; }
     }
 }

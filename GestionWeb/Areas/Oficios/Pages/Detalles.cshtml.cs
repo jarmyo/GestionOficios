@@ -88,7 +88,7 @@ namespace GestionWeb.Areas.Oficios.Pages
                 var f = new Data.OficiosDocumentos
                 {
                     IdOficio = Oficios.Id,
-                    filename = filePath
+                    Filename = filePath
                 };
 
                 _context.OficiosDocumentos.Add(f);
