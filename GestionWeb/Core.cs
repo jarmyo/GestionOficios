@@ -1,9 +1,4 @@
-﻿using Microsoft.Extensions.Configuration;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace GestionWeb
+﻿namespace GestionWeb
 {
     public static class Core
     {

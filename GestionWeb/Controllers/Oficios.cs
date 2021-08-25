@@ -1,10 +1,6 @@
 ﻿using GestionWeb.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace GestionWeb.Controllers
 {
@@ -39,6 +35,15 @@ namespace GestionWeb.Controllers
                     }
                 case EstadoOficio.EnMiPoder: //Aceptar en bandeja
                     {
+                        var estado = new OficiosEstados()
+                        {
+                            FechaHora = DateTime.Now,
+                            IdEstado = EstadoOficio.EnMiPoder,
+                            IdOficio = oficio.Id,
+                            IdUsuario = SessionUser.IdUsuario
+                        };
+                        estado = _context.OficiosEstados.Add(estado).Entity;
+                        await _context.SaveChangesAsync();                        
                         break;
                     }
                 case EstadoOficio.EnviadoParaConfirmar: //enviar contestado

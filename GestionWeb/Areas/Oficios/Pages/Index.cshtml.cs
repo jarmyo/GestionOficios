@@ -1,13 +1,8 @@
-﻿using System.Linq;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
-using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using System.Diagnostics;
 
 namespace GestionWeb.Areas.Oficios.Pages
 {
