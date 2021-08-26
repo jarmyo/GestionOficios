@@ -18,7 +18,6 @@ namespace GestionWeb
         {
             Core.ConnectionString = Configuration["gestionDatosConnectionString"];
             services.AddDbContext<GestionOficiosContext>(options =>
-
                            options.UseSqlServer(Configuration["gestionDatosConnectionString"])
                            .UseLazyLoadingProxies()                           
                            );
@@ -29,35 +28,27 @@ namespace GestionWeb
                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<NucleoCompartidoContext>();
             services.AddRazorPages();
-            services.AddMvc();
+            //services.AddMvc();
             var mvcBuilder = services.AddControllersWithViews();            
             mvcBuilder.AddRazorRuntimeCompilation();
         }
         
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.UseDeveloperExceptionPage();
+
             if (env.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage();
-              //  app.UseMigrationsEndPoint();
-                app.UseDeveloperExceptionPage();
                 app.UseBrowserLink();
-                
             }
             else
             {
-                app.UseExceptionHandler("/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
-            }
-
-          //  app.UseHttpsRedirection();
+            }            
             app.UseStaticFiles();
-
-            app.UseRouting();    
+            app.UseRouting();
             app.UseAuthentication();
-            app.UseAuthorization();
-
+            app.UseAuthorization();                    
             app.UseEndpoints(endpoints =>
             {                
                 endpoints.MapControllerRoute(
