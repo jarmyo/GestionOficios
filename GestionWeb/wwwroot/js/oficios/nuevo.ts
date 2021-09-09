@@ -5,13 +5,13 @@
 
         var tipo = document.getElementById('TipoEmisor') as HTMLSelectElement;
         if (tipo.selectedIndex >= 0) {
-            fetch('/Oficios/CrearNuevoEmisor?nombre=' + nom + "&tipo=" + tipo.value).then(
+            fetch('/Oficios/CrearNuevoEmisor?nombre=' + nom.value + "&tipo=" + tipo.value).then(
                 function (res) {
                     return res.json();
                 }
             ).then(
                 function (idOpcionNueva) {
-                    if (idOpcionNueva == "error") {
+                    if (idOpcionNueva != "error") {
                         var tipos = document.getElementById('Oficios_IdEmisor') as HTMLSelectElement;
                         var newOption = document.createElement("option") as HTMLOptionElement;
                         newOption.text = nom.value;
@@ -44,13 +44,13 @@
 function AgregarNuevoTipoOficio(): void {
     var nom = document.getElementById('NombreTipo') as HTMLInputElement;
     if (nom.value.length > 0) {
-        fetch('/Oficios/CrearNuevoTipoOficio?nombre=' + nom).then(
+        fetch('/Oficios/CrearNuevoTipoOficio?nombre=' + nom.value).then(
             function (res) {
                 return res.json();
             }
         ).then(
             function (idOpcionNueva) {
-                if (idOpcionNueva == "error") {
+                if (idOpcionNueva != "error") {
                     var tipos = document.getElementById('Oficios_IdTipo') as HTMLSelectElement;
                     var newOption = document.createElement("option") as HTMLOptionElement;
                     newOption.text = nom.value;
@@ -74,25 +74,27 @@ function AgregarNuevoTipoOficio(): void {
 
 }
 
-function CalcularDias(): void {
-    document.getElementById('calculaHabiles').focus();
+function CalcularDias(): void {    
     var esHabil = (document.getElementById('radioHabil') as HTMLInputElement).checked;
     var num = 1;
     var numString = "";
     var nuevaFecha = new Date();
     if (esHabil) {
-        //TODO verificar que no esté vacio        
+        //TODO verificar que no esté vacio                
         numString = (document.getElementById('calculaHabiles') as HTMLInputElement).value;
+        console.log("calcula habiles " + numString);
+        num = parseInt(numString);
         nuevaFecha = CalcularDiasHabiles(new Date(), num);
     }
     else {
         //TODO verificar que no esté vacio
         numString = (document.getElementById('calculaNaturales') as HTMLInputElement).value;
+        console.log("calcula naturales " + numString);
+        num = parseInt(numString);
         nuevaFecha.setDate(nuevaFecha.getDate() + num);
-    }
-
-    num = parseInt(numString);
+    }    
     var textoFecha = (document.getElementById('OficiosTerminoFecha') as HTMLInputElement);
+    console.log("result: " + nuevaFecha.toISOString());
     textoFecha.value = nuevaFecha.toISOString().substr(0, 16);
 
     var myModal = bootstrap.Modal.getInstance(document.getElementById('calcularfecha'))
