@@ -21,13 +21,13 @@
                 <button data-bs-toggle="modal" data-bs-target="#modalTurnar" class="btn btn-primary my-2">Turnar a alguien</button>
             }
 
-            @if (Model.MiEstadoOficio == EstadoOficio.PendienteRecibir)
+            @if (Model.MiEstadoOficio <= EstadoOficio.PendienteRecibir)
             {
                 <a href="/Oficios/Marcar?id=@Model.Oficios.Id&action=3" class="btn btn-success my-2">Aceptar Oficio</a>
             }
             @if (User.IsInRole("Supervisor"))
             {
-                if (Model.MiEstadoOficio == EstadoOficio.EnviadoParaConfirmar)
+                if (Model.MiEstadoOficio <= EstadoOficio.EnviadoParaConfirmar)
                 {
                     <a href="/Oficios/Marcar?id=@Model.Oficios.Id&action=5" class="btn btn-dark my-2">Confirmar como contestado</a>
                 }
