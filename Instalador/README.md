@@ -8,4 +8,4 @@ para agilizar el despliegue.
 
 # Configuración
 
-Para personalizar con sus propios certificados autofirmador reemplace el valor string de CertFile.
+Para personalizar con sus propios certificados autofirmados reemplace el valor string de CertFile.
