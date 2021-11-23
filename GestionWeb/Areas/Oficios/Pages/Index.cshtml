@@ -7,28 +7,44 @@
 {
 <link rel="stylesheet" href="~/css/index.css" />
 }
-
 <div class="container py-5" id="featured-3">
     @if (User.IsInRole("Supervisor") || User.IsInRole("Director"))
     {
         <h1>Vista Rápida</h1>
-        <div class="row g-5 py-5">
+        <div class="row g-5 py-3">
             <div class="col">
                 <h2>Oficios Pendientes</h2>
                 <ul class="list-group">
-                    @foreach (var usuario in Model.Usuarios)
+                    @foreach (var usuario in Model.Usuarios.OrderBy(u => u.Nombre))
                     {
-                        <li class="list-group-item d-flex justify-content-between align-items-start">
-                            <div class="ms-2 me-auto">
-                                <div class="fw">@usuario.Nombre</div>                                
-                            </div>
-                            <span class="badge bg-danger rounded-pill">@usuario.OficiosIdUsuarioNavigation.Count(o=>o.Archivado==false && o.UltimoEstado < EstadoOficio.EnviadoParaConfirmar )</span>                            
-                        </li>
+                        var count = usuario.OficiosIdUsuarioNavigation.Count(o => o.Archivado == false && o.UltimoEstado < EstadoOficio.EnviadoParaConfirmar);
+                        if (count > 0)
+                        {
+                            <li class="list-group-item d-flex justify-content-between align-items-start">
+                                <div class="ms-2 me-auto">
+                                    <div class="fw">@usuario.Nombre</div>
+                                </div>
+                                <span class="badge bg-danger rounded-pill">@count</span>
+                            </li>
+                        }
                     }
                 </ul>
             </div>
             <div class="col">
                 <h2>Procedimientos</h2>
+            </div>
+            <div class="col">
+                <h2>Últimos oficios capturados</h2>
+                <ul class="list-group">
+                    @foreach (var o in Model.UltimosOficios)
+                    {
+                        <li class="list-group-item d-flex justify-content-between align-items-start">
+                            <div class="ms-2 me-auto">
+                                <div class="fw">@o</div>
+                            </div>
+                        </li>
+                    }
+                </ul>
             </div>
         </div>
     }

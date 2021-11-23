@@ -12,6 +12,8 @@ namespace GestionWeb.Areas.Oficios.Pages
         public string NumeroOficiosPendientes { get; set; } = string.Empty;
         [BindProperty]
         public IList<Data.Usuarios> Usuarios { get; set; }
+        [BindProperty]
+        public IList<string> UltimosOficios { get; set; }
         private readonly Data.GestionOficiosContext _context;
         private readonly UserManager<IdentityUser> _userManager;        
 
@@ -57,6 +59,7 @@ namespace GestionWeb.Areas.Oficios.Pages
                 {
                     count += 1;
                 }
+                UltimosOficios = _context.Oficios.OrderByDescending(o => o.FechaRecepcion).Take(6).Select(o => o.FechaRecepcion + " - " +  o.Asunto + " - " + o.Oficio).ToList();
 
                 foreach (var oe in _context.OficiosEstados.Where(o => o.IdEstado == EstadoOficio.EnviadoParaConfirmar))
                 {

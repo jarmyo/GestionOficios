@@ -47,11 +47,11 @@ namespace GestionWeb.Areas.Oficios.Pages
             var idDep = SessionUser.IdDepartamento;
             ViewData["IdEmisor"] = new SelectList(_context.Emisores, "Id", "Nombre");
             ViewData["IdReceptor"] = new SelectList(_context.Usuarios.Where(e => !e.Oculto && e.IdDepartamento == idDep), "Id", "Nombre");
-            ViewData["IdTipo"] = new SelectList(_context.TipoOficio, "Id", "Nombre");
+            ViewData["IdTipo"] = new SelectList(_context.TipoOficio.OrderBy(tipo=>tipo.Nombre), "Id", "Nombre");
             TipoEmisores = await _context.TiposDeEmisor.ToListAsync();
             //ViewData["IdTipoEmisor"] = new SelectList(_context.TiposDeEmisor, "Id", "Nombre");
             Usuarios = await _context.Usuarios.Where(e => !e.Oculto && e.IdDepartamento == idDep).ToListAsync();
-            Departamentos = await _context.Departamentos.Where(r => r.Id != idDep).ToListAsync();
+            Departamentos = await _context.Departamentos.Where(r => r.Id != idDep).OrderBy(dep=>dep.Nombre) .ToListAsync();
             return Page();
         }
         public async Task<IActionResult> OnPostAsync()
