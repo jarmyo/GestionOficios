@@ -6,7 +6,7 @@
     fetch('/Oficios/TurnarOficio?id=' + idOficio + "&user=" + idUsuario).then(
         function (result) { return result.text(); }).then(
             function () {                
-                window.location.reload();
+                window.location.reload(true);
             }
         );
 }
