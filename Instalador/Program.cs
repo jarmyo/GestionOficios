@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
-
 namespace Instalador
 {
     class Program
@@ -34,7 +33,10 @@ namespace Instalador
                 Console.ForegroundColor = ConsoleColor.White;
                 Console.WriteLine("...ERROR: " + ee.Message);
             }
-            Console.WriteLine("Presione Q para salir");
+            finally
+            {
+                Console.WriteLine("Presione Q para salir");
+            }
             char q;
             do
             {
